@@ -1,0 +1,69 @@
+import { Callout, Cards, Steps, Tabs } from "nextra/components";
+
+## Sistem Gereksinimleri
+
+PowerNukkitX sunucusunu sorunsuz çalıştırmak için aşağıdaki gereksinimlerin karşılandığından emin olun:
+
+- **İşlemci (CPU):** Çift çekirdekli işlemci (Intel/AMD, 2.5 GHz veya üzeri)
+- **RAM:** 2 GB | Daha iyi performans için 4 GB+ önerilir
+- **Depolama:** Kurulum için en az 256 MB boş alan | Oyuncu ve dünya verilerini kaydetmek için birkaç GB önerilir
+
+🔹 *Daha büyük sunucular (20+ oyuncu) için en az **4–8 GB RAM** tahsis edin ve güçlü bir işlemci kullanın.*
+
+## Java Gereksinimleri
+
+Sunucunuzu kurmadan önce, sisteminizde **JDK 21 veya üzeri** sürümün kurulu olduğundan emin olun.
+
+🔹 **En son sürümü buradan indirebilirsiniz:** [GraalVM JDK 21+](https://www.graalvm.org/downloads)
+
+<Callout type="info">
+    Kurulu Java sürümünüzü kontrol etmek için şu komutu çalıştırabilirsiniz:
+    ```sh
+    java -version
+    ```
+    Çıktıda **21’den düşük** bir sürüm görünüyorsa, kuruluma geçmeden önce JDK’nızı güncelleyin.
+</Callout>
+
+<details>
+    <summary>Linux için</summary>
+
+    <a>Linux'ta Java 21 kurmak</a> için şu adımları takip edebilirsiniz:
+
+    <Steps>
+        ### Bir terminal açın.
+
+        ### Paketleri güncelleyin
+
+        ```bash
+        sudo apt update
+        ```
+
+        ### JDK 21’i kurun
+
+        ```bash
+        sudo apt install openjdk-21-jdk
+        ```
+
+        ### Kurulumu doğrulayın
+
+        ```bash
+        java -version
+        ```
+
+        Her şey doğru yapıldıysa, Java sürümü ekranda görünecektir.
+    </Steps>
+
+</details>
+
+## PowerNukkitX Kurulumu
+
+<a>PowerNukkitX</a> kurmak için birden fazla yöntem mevcuttur:
+- CLI (Otomatik)
+- Windows için Manuel
+- Linux için Manuel
+
+<Cards>
+    <Cards.Card icon="📦" title="CLI (Otomatik)" href="/installation/cli" children="" />
+    <Cards.Card icon="📂" title="Manuel (Windows)" href="/installation/manual/windows" children="" />
+    <Cards.Card icon="📂" title="Manuel (Linux)" href="/installation/manual/linux" children="" />
+</Cards>

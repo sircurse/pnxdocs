@@ -1,0 +1,71 @@
+import { Callout } from "nextra/components";
+
+<Callout type={"info"}>
+Özel bloklar kullanırken, oyuncuların tüm önemli doku verilerini içeren bir kaynak paketine (resource pack) ihtiyacı olacaktır.
+Daha fazla bilgi için: <a href="https://wiki.bedrock.dev">wiki.bedrock.dev</a>
+</Callout>
+
+# Özel Bloklar (Custom Blocks)
+PNX üzerinde kendi özel bloklarınızı oluşturabilirsiniz. Kullandığınız kaynak paketinde blokların geometrisi (eğer özel bir şekil istiyorsanız), dokuları vb. tüm verilerin bulunduğundan emin olun.
+
+## Özel Blok Kaydetme
+Bloklarınızı eklentiniz **yüklenirken** (enabled olmadan önce) kaydetmeniz önerilir.
+Kaydetmek için aşağıdaki kodu kullanabilirsiniz:
+
+```java
+// Gerekli importlar
+import cn.nukkit.registry.RegisterException;
+import cn.nukkit.registry.Registries;
+
+// Daha sonra, onLoad() fonksiyonunuzda
+try {
+    Registries.BLOCK.registerCustomBlock(this, MyBlock.class);
+} catch (RegisterException e) {
+    throw new RuntimeException(e);
+}
+```
+
+## Blok Tanımı (Sınıfınız)
+Aşağıda minimum özel blok tanımı örneği verilmiştir. Dilerseniz bunu daha fazla genişletebilirsiniz.
+
+```java
+import cn.nukkit.block.Block;
+import cn.nukkit.block.BlockProperties;
+import cn.nukkit.block.BlockState;
+import cn.nukkit.block.customblock.CustomBlock;
+import cn.nukkit.block.customblock.CustomBlockDefinition;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public class MyBlock extends Block implements CustomBlock {
+    public static final BlockProperties PROPERTIES = new BlockProperties("powernukkitx:myblock");
+
+    public MyBlock() {
+        super(PROPERTIES.getDefaultState());
+    }
+
+    public MyBlock(@Nullable BlockState blockState) {
+        super(blockState);
+    }
+
+    @Override
+    public @NotNull BlockProperties getProperties() {
+        return PROPERTIES;
+    }
+
+    @Override
+    public CustomBlockDefinition getDefinition() {
+        return CustomBlockDefinition
+                .builder(this)
+                .texture("myblock") // resources_pack/textures/blocks/myblock.png olmalı
+                .name("Benim özel blokum")
+                .breakTime(3) // kırılma süresi
+                .build();
+    }
+
+    // İsterseniz Block sınıfındaki tüm metodları burada override edebilirsiniz
+}
+```
+
+## Yardıma mı ihtiyacınız var?
+Yardım için <a href="https://github.com/PowerNukkitX/ExamplePlugin-Maven">örnek eklentiye</a> göz atabilir veya <a href="https://discord.powernukkitx.org">resmi Discord sunucumuza</a> katılarak destek alabilirsiniz.

@@ -1,0 +1,171 @@
+import { Callout } from "nextra/components";
+
+# CustomForm
+**CustomForm**, Minecraft içinde ayarlanabilir öğeler içeren modal bir formdur.
+Aşağıdaki adımlarla PNX içinde nasıl kullanılacağını öğrenebilirsiniz.
+Formda:
+- Bir başlık
+- Öğeler
+
+## Başlık
+Başlık nasıl değiştirilir, <a href="./generic">buradan</a> kontrol edin.
+
+## Öğeler
+CustomForm birçok farklı öğeyi destekler. Aşağıdaki bölümlerde bu öğelerin kullanımı anlatılmaktadır.
+
+```java
+CustomForm form = ...;
+
+form.addElement(element); // Öğeyi ekle
+```
+
+### Dropdown
+Dropdown, kullanıcıya listeden kolayca seçim yapma imkanı verir.
+```java
+List<String> options = ...;
+
+ElementDropdown dropdown = new ElementDropdown("Bir seçenek seçin", options);
+```
+
+Opsiyonel olarak varsayılan bir indeks ekleyebilirsiniz:
+```java
+// Form açıldığında ikinci öğe seçili olacak
+ElementDropdown dropdown = new ElementDropdown("Bir seçenek seçin", options, 1);
+```
+
+Her parametre method ile de ayarlanabilir:
+```java
+// Öğenin metnini değiştirme
+dropdown.text("Favori seçeneğinizi seçin");
+```
+
+### Input
+Input, kullanıcıdan metin girişi almanızı sağlar.
+```java
+ElementInput input = new ElementInput("Durumu değiştir");
+ElementInput input = new ElementInput("Durumu değiştir", "PNX harika!"); // Yer tutucu (placeholder)
+ElementInput input = new ElementInput("Durumu değiştir", "PNX harika!", "PNX'i seviyorum!"); // Varsayılan değer
+```
+
+Parametreler method ile de ayarlanabilir:
+```java
+// Yer tutucuyu değiştirme
+input.placeholder("PNX'i seviyorum!");
+```
+
+### Label
+<a href="./simple-form">SimpleForm</a> veya <a href="./modal-form">ModalForm</a> içeriğine benzer şekilde, label (etiket) başka bir öğeyi açıklamak gibi metin eklemek için kullanılabilir.
+```java
+ElementLabel label = new ElementLabel("Durum, sunucuya katıldığınızda gösterilecektir.");
+```
+
+### Slider
+Slider, oyuncunun float tipinde bir değer seçmesini sağlar.
+```java
+float min = 0.0F;
+float max = 10.0F;
+int step = 1;
+float defaultValue = 2.0F;
+
+ElementSlider slider = new ElementSlider("Speed", min, max, step, defaultValue);
+```
+
+Parametreler method ile de ayarlanabilir:
+```java
+// Varsayılan değeri değiştirme
+input.defaultValue(1.0F);
+```
+
+### Step Slider
+Step Slider, dropdown'a benzer fakat oyuncu seçenekleri yatay olarak seçer.
+```java
+List<String> steps = ...;
+
+ElementStepSlider stepSlider = new ElementStepSlider("Bir adım seç", steps);
+```
+
+Opsiyonel varsayılan indeks:
+```java
+// Form açıldığında ikinci öğe seçili olacak
+ElementStepSlider stepSlider = new ElementStepSlider("Bir adım seç", steps, 1);
+```
+
+Parametreler method ile de ayarlanabilir:
+```java
+// Öğeyi ekleme (ve opsiyonel olarak varsayılan yapma)
+stepSlider.addStep("Adım 5", true);
+```
+
+### Toggle
+Toggle, boolean değer belirlemek için kullanılır. Örneğin ayarları açıp kapamak için.
+```java
+ElementToggle toggle = new ElementToggle("Çift zıplamayı etkinleştir?");
+```
+
+Opsiyonel varsayılan değer:
+```java
+ElementToggle toggle = new ElementToggle("Çift zıplamayı etkinleştir?", true);
+```
+
+## Listeners
+
+### Formun tamamı
+Formun gönderilip gönderilmediğini veya kapatılıp kapatılmadığını dinleyebilirsiniz.
+```java
+form.onSubmit((player, response) -> {
+    ElementResponse dropdown = response.getDropdownResponse(0);
+    String input = response.getInputResponse(1);
+    String label = response.getLabelResponse(2);
+    float slider = response.getSliderResponse(3);
+    ElementResponse stepSlider = response.getStepSliderResponse(4);
+    boolean toggle = response.getToggleResponse(5);
+
+    // Burada yanıtı işleyin
+});
+
+form.onClose(player -> player.sendMessage("Formu kapattınız!"));
+```
+
+### Olayı kullanma
+`PlayerFormRespondedEvent` dinleyebilirsiniz.
+```java
+@EventHandler
+public void on(PlayerFormRespondedEvent event) {
+    Player player = event.getPlayer(); // Formu gönderen oyuncu
+    Form<?> form = event.getWindow(); // Cevaplanan pencere
+    Response response = event.getResponse(); // Yanıt; kapandıysa null
+
+    // Örnek: Başlığı 'Ayarlar' olan bir CustomForm kapatıldı mı kontrolü
+    if (form instanceof CustomForm && form.title().equals("Ayarlar")) {
+        boolean kapandi = response == null;
+
+        player.sendMessage(kapandi ? "Formu kapattınız." : "Ayarları gönderdiniz.");
+    }
+}
+```
+
+## Form gönderme
+Form gönderme nasıl yapılır, <a href="./generic">buradan</a> bakabilirsiniz.
+
+## Örnek kod
+Özetlemek gerekirse, formunuzun son hali şöyle olabilir:
+```java
+String displayName = player.getDisplayName(); // Örnek amaçlı
+
+CustomForm form = new CustomForm("Ayarlar")
+            .addElement(new ElementInput("Takma adı değiştir", "Herobrine", displayName.isEmpty() ? "" : displayName))
+            .addElement(new ElementLabel("Gerçek adınızı tekrar uygulamak için boş bırakın."))
+            .onSubmit((pl, response) -> {
+                String input = response.getInputResponse(0);
+                if (input.isEmpty()) {
+                    pl.setDisplayName(pl.getName());
+                    return;
+                }
+
+                // Giriş doğrulaması...
+
+                pl.setDisplayName(input);
+            })
+            .onClose(pl -> pl.sendMessage("Aman tanrım, formu kapattınız!"))
+            .send(player);
+```

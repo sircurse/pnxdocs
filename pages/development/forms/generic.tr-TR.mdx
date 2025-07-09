@@ -1,0 +1,79 @@
+import { Callout } from "nextra/components";
+
+# Genel Kullanım
+Bazı özellikler her form türünde ortak olduğundan, hepsinin hızlı bir özeti aşağıdadır.
+
+## Başlık
+Her form türünün bir başlık öğesi vardır. Başlığı ya yapıcı (constructor) içinde ya da metod kullanarak ekleyebilirsiniz.
+```java
+// Yapıcı (constructor) kullanarak
+CustomForm custom = new CustomForm("başlık");
+ModalForm modal = new ModalForm("başlık");
+SimpleForm simple = new SimpleForm("başlık");
+
+// Metod kullanarak
+custom.title("başka başlık");
+modal.title("başka başlık");
+simple.title("başka başlık");
+```
+
+## Dinleyiciler (Listeners)
+Her form, form gönderildiğinde veya kapandığında yanıtı işleyen bir consumer çalıştırabilir.
+```java
+form.onSubmit((player, response) -> {
+    /*
+    
+    Form yanıtını burada işleyin,
+    kullanılan form türüne göre nesne farklılık gösterebilir.
+    Ayrıntılar için ilgili form dökümantasyonuna bakınız.
+
+    */
+})
+form.onClose(player -> player.sendMessage("Formu kapattınız!"));
+```
+
+## Formları Gönderme
+
+```java
+form.send(player);
+```
+
+İsterseniz form için bir ID de geçebilirsiniz *(önerilmez)*
+```java
+form.send(player, 123);
+```
+
+## Metadata
+Formlar, örneğin bir oyuncu tarafından açılan formları tanımlamak ve böylece güncellemek için kullanılabilecek metadata desteği sunar.
+
+### Metadata Ekleme
+Metadata olarak herhangi bir şey ekleyebilirsiniz - kelimenin tam anlamıyla.
+```java
+// Örnek: Bir entity kaydetme
+Entity entity = ...;
+
+form.putMeta("form-tipi", "entity-yönet")
+    .putMeta("entity", entity);
+```
+
+### Metadata Okuma
+Metadata'yı tekrar okumak için `Form#getMeta(String)` metodunu kullanabilirsiniz.
+```java
+Entity entity = form.getMeta("entity");
+```
+
+Eğer formun gerçekten metadata içerip içermediğinden emin değilseniz, varsayılan değer verebilirsiniz:
+```java
+Entity entity = form.getMeta("entity", backupEntity);
+```
+
+## İzleyicileri (Viewers) Alma
+Bir formu birden fazla kişiye aynı anda gönderebiliyorsanız (örneğin takım seçici gibi), formu gören tüm oyuncuları alabilirsiniz.
+```java
+ObjectArraySet<Player> viewers = form.viewers();
+```
+
+Alternatif olarak, bir oyuncunun formu açıp açmadığını manuel kontrol edebilirsiniz:
+```java
+boolean isViewer = form.isViewer(player);
+```

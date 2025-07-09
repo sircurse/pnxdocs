@@ -1,0 +1,66 @@
+import { Callout, Steps } from "nextra/components";
+
+# Terra
+Terra, [açık kaynaklı bir üretici](https://github.com/PolyhedralDev/Terra) olup, güzel dünyalar oluşturmak için kullanılır.
+
+## PNX içinde Terra kurulumu
+
+<Steps>
+    ### Yapılandırma dosyası <a href="/configuration/files/pnx-yml">pnx.yml</a> dosyasını açın.
+    ### `use-terra` değerini `on` olarak ayarlayın.
+
+    ```properties filename="pnx.yml"
+    use-terra=on
+    ```
+</Steps>
+
+## Terra Paketleri
+Terra, arazi üretimini yapılandırma paketleri ile kontrol eder. Farklı deneyimler için farklı paketler kullanabilirsiniz.
+ZIP dosyası ya da klasörden paket yüklemeyi destekler. Bir paketi yüklemek için, sadece `./terra/packs` klasörüne koyup sunucuyu yeniden başlatmanız yeterlidir.
+
+🔹 Bazı hazır paketlere buradan ulaşabilirsiniz: [Topluluk Paketleri](https://terra.polydev.org/config/community-packs.html).
+
+### Bir paket yapılandırma
+<Steps>
+    #### İstediğiniz paketi indirin
+
+    Örnek olarak [ReimagEND](https://github.com/justaureus/ReimagEND) paketini kullanacağız.
+    Paket ekleme talimatları için [Terra paket kurulum rehberi](https://terra.polydev.org/config/pack-installation.html) sayfasına bakabilirsiniz.
+
+    #### Bir dünya klasörü oluşturun
+
+    `worlds` dizini içinde (örneğin `end`) dünyanız için bir klasör oluşturun.
+
+    #### Bir <a href="/worlds/config">yapılandırma dosyası</a> oluşturun
+    ```json showLineNumbers filename="config.json"
+    {
+        "format": "leveldb",
+        "enable": true,
+        "generators": {
+            "2": {
+                "name": "terra",
+                "seed": 0,
+                "enableAntiXray": false,
+                "antiXrayMode": "LOW",
+                "preDeobfuscate": true,
+                "dimensionData": {
+                    "dimensionName": "minecraft:end",
+                    "dimensionId": 2,
+                    "minHeight": 0,
+                    "maxHeight": 255,
+                    "height": 256,
+                    "chunkSectionCount": 16
+                },
+                "preset": {
+                    "pack": "REIMAGEND"
+                }
+            }
+        }
+    }
+    ```
+    Eğer başka bir paket kullanacaksanız, `preset.pack` değerini (`REIMAGEND` şu anda) kullandığınız paketin adı ile değiştirin.
+    Paketin adı, paket içindeki `pack.yml` dosyasındaki `id` alanında bulunur.
+
+    #### Sunucuyu yeniden başlatın
+    Değişikliklerin uygulanması için sunucuyu yeniden başlatın. Yeni oluşturulan dünyaya `/world tp end` komutuyla ışınlanarak kontrol edebilirsiniz.
+</Steps>

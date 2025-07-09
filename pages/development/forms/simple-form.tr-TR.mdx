@@ -1,0 +1,122 @@
+import { Callout } from "nextra/components";
+
+# SimpleForm
+**SimpleForm**, Minecraft içinde tıklanabilir butonlar içeren modal bir formdur. PNX içinde nasıl kullanılacağını öğrenmek için aşağıdaki adımları takip edin.
+Formun içeriği:
+- Başlık
+- İçerik: Formun kısa açıklaması
+- Butonlar: İçerik altında gösterilir, opsiyonel olarak **resim** içerir
+
+## Başlık & İçerik
+Formun başlık ve içeriğini ayarlamanın çeşitli yolları vardır.
+
+### Yapıcı ile kullanımı
+```java
+// Başlık ve içeriği yapıcıda ayarlama
+SimpleForm form = new SimpleForm("başlık", "içerik");
+```
+```java
+// Sadece başlığı yapıcıda ayarlama
+SimpleForm form = new SimpleForm("başlık");
+```
+
+### Metodlarla kullanımı
+```java
+// Başlık ve içeriği metodlarla ayarlama
+SimpleForm form = new SimpleForm()
+                    .title("başlık")
+                    .content("içerik");
+```
+
+## Butonlar
+Butonlar çeşitli şekillerde eklenebilir:
+- `SimpleForm#addButton(ElementButton)` |  Tam buton elemanı ekler.
+- `SimpleForm#addButton(ElementButton, Consumer<Player>)` | Dinleyici ile tam buton ekler.
+- `SimpleForm#addButton(String)` | Sadece metinli buton ekler.
+- `SimpleForm#addButton(String, Consumer<Player>)` | Dinleyici ile metinli buton ekler.
+- `SimpleForm#addButton(String, ButtonImage)` | Resimli buton ekler.
+- `SimpleForm#addButton(String, ButtonImage, Consumer<Player>)` | Resimli ve dinleyicili buton ekler.
+
+### ButtonImage
+İki tür resim oluşturulabilir:
+1. `ButtonImage.Type.PATH`:  Resource pack içinden resim
+2. `ButtonImage.Type.URL`: URL üzerinden resim
+
+```java
+ButtonImage emeraldItem = ButtonImage.Type.PATH.of("textures/ui/emerald");
+```
+
+## Dinleyiciler (Listeners)
+
+### Tekil butonlar
+Butona doğrudan dinleyici ekleyebilirsiniz. Butona tıklanınca kod çalışır:
+```java
+form.addButton("Zümrüt", ButtonImage.Type.PATH.of("textures/ui/emerald"), player -> player.sendMessage("Zümrüte tıkladın!"))
+    .addButton("Elmas", ButtonImage.Type.PATH.of("textures/ui/diamond"), player -> player.sendMessage("Elmasa tıkladın!")); // Zincirleme metot kullanımı!
+```
+
+### Tüm form
+Formun gönderilip gönderilmediğini veya kapandığını dinleyebilirsiniz.
+Bu, örneğin çok butonlu dizilerden aynı işlevi yaptırmak için kullanışlıdır.
+```java
+form.onSubmit((player, response) -> {
+    int buttonId = response.buttonId(); // Tıklanan butonun sırası (-1 geçersiz)
+    ElementButton button = response.button(); // Tıklanan buton (geçersiz ise null)
+});
+
+form.onClose(player -> player.sendMessage("Formu kapattınız!"));
+```
+
+### Event kullanımı
+`PlayerFormRespondedEvent` dinleyebilirsiniz:
+```java
+@EventHandler
+public void on(PlayerFormRespondedEvent event) {
+    Player player = event.getPlayer(); // Formu gönderen oyuncu
+    Form<?> form = event.getWindow(); // Yanıtlanan form
+    Response response = event.getResponse(); // Yanıt; kapandıysa null
+
+    // Örnek: Başlığı 'Ingots' olan SimpleForm kapandı mı kontrolü
+    if (form instanceof SimpleForm && form.title().equals("Ingots")) {
+        boolean closed = response == null;
+
+        player.sendMessage(closed ? "Formu kapattınız." : "Bir ingot seçtiniz.");
+    }
+}
+```
+
+## Form gönderme
+Form nasıl gönderilir <a href="./generic">burada</a> anlatılmıştır.
+
+## Form güncelleme
+Eğer SimpleForm *hala oyuncuya açıksa*, butonları metin veya resim değiştirerek ya da yeni buton ekleyerek güncelleyebilirsiniz:
+
+<Callout type="warning"> Büyük formlar için önerilmez çünkü güncelleme, oyuncunun yaptığı tüm girişleri (ör. kaydırma) sıfırlar. </Callout>
+
+```java
+ElementButton button = new ElementButton("Netherite Ingot", ButtonImage.Type.PATH.of("textures/ui/netherite_ingot", player -> player.sendMessage("Netherite Ingot'a tıkladınız!")));
+form.updateElement(0, button); // İlk butonu (indeks 0) yeni butonla değiştir
+form.sendUpdate(player); // Güncellemeyi oyuncuya gönder
+```
+
+## Örnek kod
+Özetlemek gerekirse, formunuzun son hali şöyle olabilir:
+```java
+SimpleForm form = new SimpleForm("Ingots", "Devam etmek için bir Ingot seçin.")
+            .addButton("Netherite Ingot", ButtonImage.Type.PATH.of("textures/ui/netherite_ingot"))
+            .addButton("Zümrüt", ButtonImage.Type.PATH.of("textures/ui/emerald"))
+            .addButton("Elmas", ButtonImage.Type.PATH.of("textures/ui/diamond"))
+            .onSubmit((pl, response) -> {
+                pl.sendMessage(response.button().text() + " butonuna tıkladınız.");
+            })
+            .onClose(pl -> pl.sendMessage("Ah hayır, formu kapattınız!"))
+            .send(player);
+
+// 3 saniye sonra Netherite Ingot butonunu kaldır
+Server.getInstance().getScheduler().scheduleDelayedTask(() -> {
+    if (form.isViewer(player)) {
+        form.removeElement(0);
+        form.sendUpdate(player);
+    }
+}, 3 * 20);
+```

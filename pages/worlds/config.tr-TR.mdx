@@ -1,0 +1,116 @@
+# Dünya Ayarları (`config.json`)
+
+PNX, BDS’den dünyaları yüklemeyi destekler; sadece `worlds` klasörünün altına yerleştirmeniz yeterlidir. Dünya yüklendikten sonra, bazı dünya ile ilgili ayarları kontrol etmek için bir `config.json` dosyası oluşturulur.
+
+## Örnek
+Aşağıda, PNX’te yerleşik Terra arazi üreteciyi başlatmak ve varsayılan yapılandırma paketini kullanmak için örnek bir config verilmiştir.
+Kullanmadan önce <a href="/configuration/files/server-properties">server.properties</a> dosyasında `use-terra` özelliğinin açık olduğundan emin olun.
+
+```json showLineNumbers filename="config.json"
+{
+  "format": "leveldb",
+  "enable": true,
+  "generators": {
+    "0": {
+      "name": "terra",
+      "seed": 0,
+      "enableAntiXray": false,
+      "antiXrayMode": "LOW",
+      "preDeobfuscate": true,
+      "dimensionData": {
+        "dimensionName": "minecraft:overworld",
+        "dimensionId": 0,
+        "minHeight": -64,
+        "maxHeight": 319,
+        "height": 384,
+        "chunkSectionCount": 24
+      },
+      "preset": {
+        "pack": "overworld"
+      }
+    }
+  }
+}
+```
+
+## Config Öğeleri
+
+### `DimensionData`: <a>object</a>
+**Overworld (Dünya)**
+```json showLineNumbers filename="config.json"
+{
+    "dimensionName": "minecraft:overworld",
+    "dimensionId": 0,
+    "minHeight": -64,
+    "maxHeight": 319,
+    "height": 384,
+    "chunkSectionCount": 24
+}
+```
+**Nether (Cehennem)**
+```json showLineNumbers filename="config.json"
+{
+    "dimensionName": "minecraft:nether",
+    "dimensionId": 1,
+    "minHeight": 0,
+    "maxHeight": 127,
+    "height": 128,
+    "chunkSectionCount": 8
+}
+```
+**End (Son)**
+```json showLineNumbers filename="config.json"
+{
+    "dimensionName": "minecraft:end",
+    "dimensionId": 2,
+    "minHeight": 0,
+    "maxHeight": 255,
+    "height": 256,
+    "chunkSectionCount": 16
+}
+```
+
+### `enable`: <a>boolean</a>
+Değer: `true` veya `false`
+
+Bu dünyanın yüklenip yüklenmeyeceğini kontrol eder, varsayılan `true`'dur.
+
+### `format`: <a>string</a>
+Değer: `leveldb`
+
+Dünyayı yüklemek için kullanılacak yükleyici tipini belirler, şu anda sadece `leveldb` desteklenir.
+
+### `generators`: <a>object</a>
+Anahtar: <a>DimensionId</a> | Yüklenecek boyutun ID’sini belirtir (`0`, `1`, `2`)<br/>
+Değer: <a>Generator</a> nesnesi
+
+Bu dünya için hangi boyutların yükleneceğini kontrol eder.
+
+### `Generator`: <a>nesne</a>
+- `name` | Üretecin adı, bu boyutta kullanılacak arazi üreticisini kontrol etmek için kullanılır, örneğin `terra`. Spesifik değerler eklentiler ve çekirdek tarafından belirlenir.
+- `seed` | Rastgele sayı üretimi için kullanılan tohum değeri
+- `enableAntiXray` | Xray karşıtı hile önlemenin etkinleştirilip etkinleştirilmeyeceği
+- `antiXrayMode` | Xray karşıtı hile kontrol seviyesi, yalnızca `enableAntiXray` etkinse geçerlidir (`LOW`, `MEDIUM`, `HIGH`)
+- `preDeobfuscate` | Blokların önceden çözümlenip çözümlenmeyeceği; normal oyuncuların deneyimini optimize eder, sadece `enableAntiXray` etkinse geçerlidir (`true`, `false`)
+- `dimensionData` | <a href="#dimensiondate-object">DimensionData</a> nesnesi
+- `preset` | Üreteceğe iletilen değerlerin bulunduğu nesne; kullanımı ilgili üreticinin dokümantasyonunda kontrol edilmelidir
+
+## PNX Yerleşik Üreticiler
+
+### Flat
+Düz bir üretici, vanilla’ya çok benzer.
+
+### Terra
+Terra ile dünya üretimi hakkında detaylı açıklama için dokümantasyon sayfamıza <a href="/extensions/terra">buradan</a> ulaşabilirsiniz.
+
+## Ayarların Neden Etkili Olmadığı
+- Dünya daha önce Terra üreticisini kullanmadıysa, ayarlar geçerli olmaz; yeni bir dünya oluşturmanız gerekir.
+- Terra’yı doğru yapılandırdığınızdan emin olun, aksi takdirde ayarlar çalışmaz.
+
+## Çok Fazla Bellek Kullanımı
+Bellek kullanımını azaltmak isterseniz, `./terra/config/yml` dosyasını aşağıdaki gibi düzenleyebilirsiniz:
+```yaml showLineNumbers filename="config.yml"
+cache:
+  structure: 0 # varsayılan 32
+  sampler: 0 # varsayılan 128
+  biome-provider: 0 # varsayılan 32

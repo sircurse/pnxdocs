@@ -1,0 +1,322 @@
+import { Callout, FileTree, Steps, Tabs } from "nextra/components";
+
+# PNX Advanced Settings
+
+<Callout type={"info"}>`pnx.yml` dosyasının varsayılan değerleriyle birlikte bu sayfada gösterilmektedir.</Callout>
+
+```yaml showLineNumbers filename="pnx.yml"
+settings:
+  language: tur
+  forceServerTranslate: false
+  shutdownMessage: Server closed
+  queryPlugins: true
+  deprecatedVerbose: true
+  asyncWorkers: auto
+  safeSpawn: true
+  installSpark: true
+  waterdogpe: false
+  autosave: 6000
+  saveUnknownBlock: true
+network-settings:
+  compressionLevel: 7
+  zlibProvider: 3
+  snappy: false
+  compressionBufferSize: 1048576
+  maxDecompressSize: 67108864
+  packetLimit: 240
+debug-settings:
+  level: INFO
+  command: false
+  ignoredPackets: []
+  allowBeta: false
+level-settings:
+  autoTickRate: true
+  autoTickRateLimit: 20
+  baseTickRate: 1
+  alwaysTickPlayers: false
+  enableRedstone: true
+  tickRedstone: true
+  chunkUnloadDelay: 15000
+  levelThread: false
+chunk-settings:
+  perTickSend: 8
+  spawnThreshold: 56
+  chunksPerTicks: 40
+  tickRadius: 3
+  lightUpdates: true
+  clearTickList: false
+  generationQueueSize: 16
+memory-settings:
+  enable: true
+  slots: 32
+  defaultTemperature: 32
+  freezingPoint: 0
+  boilingPoint: 1024
+  absoluteZero: -256
+  melting: 16
+  singleOperation: 1
+  batchOperation: 32
+player-settings:
+  savePlayerData: true
+  skinChangeCooldown: 30
+  forceSkinTrusted: false
+  checkMovement: true
+  spawnRadius: 16
+gameplay-settings:
+  enableCommandBlocks: true
+
+```
+
+## Temel Ayarlar
+*`settings` içerisinde:*
+
+### `language`
+- **Açıklama:** Konsolda kullanılacak dil.
+- **Kabul edilen değerler:** Herhangi
+- **Varsayılan değer:** `eng`
+
+### `forceServerTranslate`
+- **Açıklama:** Metni sunucu mu yoksa istemci mi çevirecek.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+### `shutdownMessage`
+- **Açıklama:** Sunucu kapandığında oyunculara gönderilecek mesaj.
+- **Kabul edilen değerler:** Herhangi
+- **Varsayılan değer:** `Server closed`
+
+### `queryPlugins`
+- **Açıklama:** Query protokolü eklenti bilgisini gösterir, sadece `enable-query=true` ise görünebilir.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `deprecatedVerbose`
+- **Açıklama:** Eklentilerin kullandığı eski (deprecated) olaylar için uyarı verilsin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `asyncWorkers`
+- **Açıklama:** Sunucunun zamanlayıcısı için kullanılacak iş parçacığı sayısı.
+- **Kabul edilen değerler:** Sayı veya `auto`
+- **Varsayılan değer:** `auto`
+
+### `safeSpawn`
+- **Açıklama:** Oyuncu doğarken güvenli bir konumda olsun mu?
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `installSpark`
+- **Açıklama:** <a href="/extensions/spark">Spark</a> eklentisi yüklensin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `waterdogpe`
+- **Açıklama:** <a href="/extensions/wdpe">WaterdogPE</a> uyumluluğu açılsın mı.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+### `autosave`
+- **Açıklama:** Dünya otomatik olarak kaç tikte bir kaydedilecek.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `6000`
+
+### `saveUnknownBlock`
+- **Açıklama:** Tanınmayan özel bloklar kaydedilsin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+## Ağ Ayarları
+*`network-settings` içerisinde:*
+
+### `compressionLevel`
+- **Açıklama:** Sunucunun kullandığı sıkıştırma seviyesi.
+- **Kabul edilen değerler:** `1` (hızlı ama kötü sıkıştırma) - `9` (yavaş ama en iyi sıkıştırma)
+- **Varsayılan değer:** `7`
+
+### `zlibProvider`
+- **Açıklama:** Kullanılan ZLib algoritması türü.
+- **Kabul edilen değerler:**
+  - `0`: Java varsayılan algoritması
+  - `1`: Tek iş parçacıklı, düşük bellek kullanımı
+  - `2`: Çok iş parçacıklı, önbellekli algoritma
+  - `3`: Donanım destekli algoritma
+- **Varsayılan değer:** `3`
+
+### `snappy`
+- **Açıklama:** Snappy sıkıştırması kullanılsın mı (önerilmez).
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+### `compressionBufferSize`
+- **Açıklama:** Sunucunun sıkıştırma/dekompresyon tampon boyutu.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `1048576`
+
+### `maxDecompressSize`
+- **Açıklama:** Maksimum dekompres edilecek bayt sayısı.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `67108864`
+
+### `packetLimit`
+- **Açıklama:** Saniyede işlenecek maksimum paket sayısı.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `240`
+
+## Hata Ayıklama Ayarları
+*`debug-settings` içerisinde:*
+
+### `level`
+- **Açıklama:** Hata ayıklama seviyesi.
+- **Kabul edilen değerler:** `INFO`, `DEBUG`, `TRACE`, `ALL`
+- **Varsayılan değer:** `INFO`
+
+### `command`
+- **Açıklama:** Hata ayıklama komutları etkinleştirilsin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+### `ignoredPackets`
+- **Açıklama:** TRACE seviyesinde kayıt dışı bırakılacak paket sınıfları.
+- **Kabul edilen değerler:** Dizi halinde sınıf adları
+- **Varsayılan değer:** `[]`
+
+### `allowBeta`
+- **Açıklama:** Beta özelliklerin kullanılmasına izin verilsin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+## Dünya Ayarları
+*`level-settings` içerisinde:*
+
+### `autoTickRate`
+- **Açıklama:** Sunucu tik oranını dinamik ayarlasın mı.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `autoTickRateLimit`
+- **Açıklama:** Maksimum otomatik tik hızı.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `20`
+
+### `baseTickRate`
+- **Açıklama:** Temel tik hızı.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `1`
+
+### `alwaysTickPlayers`
+- **Açıklama:** Oyuncular her zaman tiklensin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+### `enableRedstone`
+- **Açıklama:** Redstone etkin olsun mu.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `tickRedstone`
+- **Açıklama:** Redstone için tik işlemleri yapılsın mı.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `chunkUnloadDelay`
+- **Açıklama:** Chunkların boşaltılması için beklenecek tik sayısı.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `15000`
+
+### `levelThread`
+- **Açıklama:** Her dünya ayrı bir iş parçacığında mı çalışsın.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+## Chunk Ayarları
+*`chunk-settings` içerisinde:*
+
+### `perTickSend`
+- **Açıklama:** Oyuncuya tik başına gönderilecek maksimum chunk sayısı.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `8`
+
+### `spawnThreshold`
+- **Açıklama:** Oyuncunun ilk doğuşunda gönderilecek chunk sayısı.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `56`
+
+### `chunksPerTicks`
+- **Açıklama:** Chunk işlemlerinin yapılacağı tik döngüsü.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `40`
+
+### `tickRadius`
+- **Açıklama:** Oyuncunun etrafında tiklenecek chunk yarıçapı.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `3`
+
+### `lightUpdates`
+- **Açıklama:** Chunklar ışık güncellemeleri yapsın mı.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `clearTickList`
+- **Açıklama:** Her tik sonunda tik listesi temizlensin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+### `generationQueueSize`
+- **Açıklama:** Aynı anda işlenecek maksimum arazi üretim görevi sayısı.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `16`
+
+## Bellek Ayarları
+*`level-settings` içerisinde:*
+
+### `enable`
+- **Açıklama:** Donma (freeze) dizisi etkin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `slots`
+### `defaultTemperature`
+### `freezingPoint`
+### `boilingPoint`
+### `absoluteZero`
+### `melting`
+### `singleOperation`
+### `batchOperation`
+
+> ℹ️ Bu bölüm henüz belgelenmemiştir. Katkıda bulunmak isterseniz belgeleri güncelleyebilirsiniz.
+
+## Oyuncu Ayarları
+*`player-settings` içerisinde:*
+
+### `savePlayerData`
+- **Açıklama:** Oyuncu verileri kaydedilsin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+### `skinChangeCooldown`
+- **Açıklama:** Oyuncuların skin değiştirme bekleme süresi (saniye).
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `30`
+
+### `forceSkinTrusted`
+- **Açıklama:** Oyuncu skinleri güvenilir kabul edilsin mi (3. parti skin kullanımına izin verir).
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `false`
+
+### `checkMovement`
+- **Açıklama:** Oyuncu hareketi kontrol edilsin mi.
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`
+
+### `spawnRadius`
+- **Açıklama:** Oyuncuların doğabileceği merkez etrafındaki yarıçap.
+- **Kabul edilen değerler:** Sayı
+- **Varsayılan değer:** `16`
+
+## Oynanış Ayarları
+*`gameplay-settings` içerisinde:*
+
+### `enableCommandBlocks`
+- **Açıklama:** Oyuncuların komut bloklarını kullanmasına izin verilsin mi (dünya gamerule’larına göre değişebilir).
+- **Kabul edilen değerler:** `true`, `false`
+- **Varsayılan değer:** `true`

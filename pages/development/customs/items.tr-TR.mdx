@@ -1,0 +1,83 @@
+import { Callout } from "nextra/components";
+
+<Callout type={"info"}>
+Özel eşyalar kullanırken, oyuncuların tüm gerekli doku verilerini içeren bir kaynak paketine ihtiyacı olacaktır.
+Daha fazla bilgi için: <a href="https://wiki.bedrock.dev">wiki.bedrock.dev</a>
+</Callout>
+
+# Özel Eşyalar
+PNX üzerinde kendi özel eşyalarınızı oluşturabilirsiniz. Kullandığınız kaynak paketinde eşyanın dokularının tam olduğundan emin olun.
+
+## Özel Eşya Kaydetme
+Eşyalarınızı eklentiniz **yüklenirken** (enabled olmadan önce) kaydetmeniz önerilir.
+Kaydetmek için aşağıdaki kodu kullanabilirsiniz:
+
+```java
+// Gerekli importlar
+import cn.nukkit.registry.RegisterException;
+import cn.nukkit.registry.Registries;
+
+// Daha sonra, onLoad() fonksiyonunuzda
+try {
+    Registries.ITEM.registerCustomItem(this, MySword.class);
+} catch (RegisterException e) {
+    throw new RuntimeException(e);
+}
+```
+
+## Eşya Tanımı (Sınıfınız)
+Aşağıda minimum özel eşya tanımı örneği verilmiştir. Dilerseniz bunu daha fazla genişletebilirsiniz.
+
+```java
+import cn.nukkit.item.ItemDiamondSword;
+import cn.nukkit.item.customitem.CustomItemDefinition;
+import cn.nukkit.item.customitem.ItemCustomTool;
+import cn.nukkit.item.customitem.data.CreativeCategory;
+
+public class MySword extends ItemCustomTool {
+    public MySword() {
+        super("powernukkitx:test_sward"); // Eşya kimliği
+    }
+
+    @Override
+    public CustomItemDefinition getDefinition() {
+        return CustomItemDefinition
+                .toolBuilder(this)
+                .creativeCategory(CreativeCategory.EQUIPMENT) // Yaratıcı modda hangi kategoride gözükecek
+                .texture("test_sward") // textures/items/test_sward.png dosyasına karşılık gelmeli
+                .name("Kılıç") // Eşya adı
+                .allowOffHand(true) // Sol ele alınabilir mi?
+                .handEquipped(true) // Elde tutulduğunda donatılmış gibi gözüksün mü?
+                .foil(true) // Parlayan efekt olsun mu?
+                .build();
+    }
+
+    @Override
+    public int getMaxDurability() {
+        return 1000; // Dayanıklılık değeri
+    }
+
+    @Override
+    public int getTier() {
+        return ItemDiamondSword.TIER_DIAMOND; // Elmas seviyesinde
+    }
+
+    @Override
+    public int getAttackDamage() {
+        return 30; // Saldırı gücü
+    }
+
+    @Override
+    public int getEnchantAbility() {
+        return 20; // Büyüleme yeteneği
+    }
+
+    @Override
+    public boolean isSword() {
+        return true; // Bu eşya bir kılıç olarak kabul edilsin mi?
+    }
+}
+```
+
+## Yardıma mı ihtiyacınız var?
+Yardım için <a href="https://github.com/PowerNukkitX/ExamplePlugin-Maven">örnek eklentiye</a> göz atabilir veya <a href="https://discord.powernukkitx.org">resmi Discord sunucumuza</a> katılarak destek alabilirsiniz.

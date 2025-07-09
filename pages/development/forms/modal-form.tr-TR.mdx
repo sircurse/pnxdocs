@@ -1,0 +1,104 @@
+import { Callout } from "nextra/components";
+
+# ModalForm
+**ModalForm**, Minecraft içinde karar verme amaçlı kullanılan, iki tıklanabilir buton içeren modal bir formdur. PNX içinde nasıl kullanılacağını öğrenmek için aşağıdaki adımları takip edin.
+Formun içeriği:
+- Başlık
+- İçerik: Formun kısa açıklaması
+- İki buton: Evet veya Hayır
+
+## Başlık & İçerik
+Formun başlık ve içeriğini ayarlamanın çeşitli yolları vardır.
+
+### Yapıcı ile kullanımı
+```java
+// Başlık ve içeriği yapıcıda ayarlama
+ModalForm form = new ModalForm("başlık", "içerik");
+```
+```java
+// Sadece başlığı yapıcıda ayarlama
+ModalForm form = new ModalForm("başlık");
+```
+
+### Metodlarla kullanımı
+```java
+// Başlık ve içeriği metodlarla ayarlama
+ModalForm form = new ModalForm()
+                    .title("başlık")
+                    .content("içerik");
+```
+
+## Butonları değiştirme
+Buton metnini kolayca değiştirebilir ve dinleyici ekleyebilirsiniz:
+```java
+form.yes("Evet!", player -> player.sendMessage("Evet dedin!"))
+    .no("Hayır!", player -> player.sendMessage("Hayır dedin!"))
+```
+
+Sadece metin değiştirmek isterseniz:
+```java
+// İki butonun metni
+form.text("Evet!", "Hayır!");
+
+// Sadece 'evet' butonu metni
+form.yesText("Evet!!");
+
+// Sadece 'hayır' butonu metni
+form.noText("Hayır!!");
+```
+
+## Dinleyiciler (Listeners)
+
+### Doğrudan ekleme
+Butonlara direkt dinleyici ekleyebilirsiniz. Butona tıklanınca kod çalışır:
+```java
+form.onYes(player -> player.sendMessage("Evet dedin!!"))
+    .onNo(player -> player.sendMessage("Hayır dedin!!"))
+```
+
+### Tüm form
+Formun gönderilip gönderilmediğini veya kapandığını dinleyebilirsiniz:
+```java
+form.onSubmit((player, response) -> {
+    int buttonId = response.buttonId(); // Tıklanan butonun sırası (-1 ise geçersiz)
+    // buttonId 0 ise 'evet', 1 ise 'hayır' tıklanmıştır
+    boolean yes = response.yes(); // 'Evet' tıklanmışsa true döner
+});
+
+form.onClose(player -> player.sendMessage("Formu kapattınız!"));
+```
+
+### Event kullanımı
+`PlayerFormRespondedEvent` dinleyebilirsiniz:
+```java
+@EventHandler
+public void on(PlayerFormRespondedEvent event) {
+    Player player = event.getPlayer(); // Formu gönderen oyuncu
+    Form<?> form = event.getWindow(); // Yanıtlanan form
+    Response response = event.getResponse(); // Yanıt; kapandıysa null
+
+    // Örnek: Başlığı 'Ingots' olan ModalForm kabul edildi mi kontrolü
+    if (form.title().equals("Ingots") && response instanceof ModalResponse modalResponse) {
+        boolean yes = modalResponse.yes();
+
+        player.sendMessage(yes ? "Kabul ettiniz." : "Reddettiniz.");
+    }
+}
+```
+
+## Form gönderme
+Form nasıl gönderilir <a href="./generic">burada</a> anlatılmıştır.
+
+## Örnek kod
+Özetlemek gerekirse, formunuzun son hali şöyle olabilir:
+```java
+ModalForm form = new ModalForm("Ingots", "1 adet Netherite Ingot'u 1000$ karşılığında almak istiyor musunuz?")
+            .yes("Evet, almak istiyorum!", pl -> pl.sendMessage("Teklifi kabul ettiniz!"))
+            .no("Hayır, almak istemiyorum!", pl -> pl.sendMessage("Teklifi reddettiniz."))
+            .onSubmit((pl, response) -> {
+                boolean yes = response.yes();
+                pl.sendMessage("Tıkladığınız buton: " + (yes ? "Evet" : "Hayır"));
+            })
+            .onClose(pl -> pl.sendMessage("Ah hayır, formu kapattınız!"))
+            .send(player);
+```

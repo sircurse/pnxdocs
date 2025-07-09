@@ -1,0 +1,33 @@
+import { Callout, FileTree, Steps, Tabs } from "nextra/components";
+
+# PowerNukkitX'i CLI ile Kurma (Önerilen)
+
+<Callout type={"warning"}>Yeni CLI hâlâ beta aşamasındadır ve düzgün çalışmayabilir. Sorun yaşarsanız, <a href={""}>GitHub Issue</a> sayfasından bildirimde bulunabilir ve <a href={""}>manuel kurulum</a> yöntemini kullanabilirsiniz.</Callout>
+
+## Gereksinimler
+- <a href="/requirements">Gereksinimleri</a> karşıladığınızdan emin olun
+- Node.js 20 [İndir](https://nodejs.org/en/download/)
+
+## Kullanım
+Bu rehberde sunucu klasörü için `server` ismini kullanacağız, ancak istediğiniz başka bir isim verebilirsiniz.
+<Steps>
+    ### Bir klasör oluşturun
+    <Tabs items={['linux/windows']}>
+        <Tabs.Tab>
+            ```bash
+            mkdir server
+            cd server
+            ```
+        </Tabs.Tab>
+    </Tabs>
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen children="" />
+    </FileTree>
+
+    ### CLI’yi çalıştırın
+    <Callout type={"error"}>Komutun az önce oluşturduğunuz dizinde çalıştırıldığından emin olun, aksi takdirde CLI doğru çalışmaz.</Callout>
+    ```bash
+    npx pnx-cli
+    ```
+    Talimatları takip ederek sunucunuzu kolayca kurabilirsiniz.
+</Steps>

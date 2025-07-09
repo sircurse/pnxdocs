@@ -1,0 +1,29 @@
+import { Callout, Steps } from "nextra/components";
+
+# WaterdogPE Proxy
+Proxy kullanarak oyuncuları birden fazla sunucu arasında sorunsuzca aktarabilirsiniz. Bu, daha esnek bir ağ kurmanız gerektiğinde özellikle önemlidir.
+
+![waterdogpe](/img/proxy-config-waterdogpe.png)
+
+PowerNukkitX, yerleşik olarak [WaterdogPE](https://github.com/WaterdogPE/WaterdogPE) proxy’sini destekler.
+Desteği etkinleştirmek için aşağıdaki adımları takip edin.
+
+## Kullanım
+
+<Steps>
+    ### Yapılandırma dosyası <a href="/configuration/files/pnx-yml">pnx.yml</a> dosyasını açın.
+    ### `settings` sekmesini bulun.
+    ### `waterdogpe` değerini `true` yapın.
+
+    ```yaml filename="pnx.yml"
+    settings:
+        waterdogpe: true
+    ```
+</Steps>
+
+WaterdogPE kullanmak için her alt sunucuda sadece <a href="/configuration/files/pnx-yml">pnx.yml</a> dosyasındaki `waterdogpe=true` ayarını yapmanız yeterlidir.
+
+<Callout type="info">
+    Oyuncuyu aktarırken, oyuncunun tüm envanterlerini kapatmanız gerekir.
+    Aksi takdirde, oyuncu başka bir sunucuda envanterini açamayabilir.
+</Callout>

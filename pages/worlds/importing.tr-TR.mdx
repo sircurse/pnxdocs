@@ -1,0 +1,39 @@
+import { Callout, Tabs, Steps } from "nextra/components";
+
+# Dünyaları İçe Aktarma
+
+Varsayılan olarak, PNX dünya verilerini saklamak için `leveldb` kullanır.
+PNX’e geçmeyi planlıyor ve dünyalarınızı korumak istiyorsanız, aşağıdaki talimatları uygulayın.
+
+<Tabs items={['LevelDB', 'Diğer']}>
+    <Tabs.Tab label="LevelDB">
+        Eğer dünyanız zaten `leveldb` kullanıyorsa, şu adımları takip edin.
+        <Steps>
+            ### `worlds` klasörüne kopyalayın
+            Dünyanızı sunucunuzun `worlds` klasörüne kopyalayın.
+
+            ### Yapılandırma ekleyin
+            Dünyanız için uygun bir <a href="/worlds/config">yapılandırma dosyası</a> oluşturun.
+
+            ### Sunucuyu yeniden başlatın
+            Dünya sunucu açılışında yüklenecektir.
+        </Steps>
+    </Tabs.Tab>
+    <Tabs.Tab label="Diğer">
+        Eğer dünyanız henüz `leveldb` kullanmıyorsa, şu adımları takip edin.
+        <Steps>
+            ### Dünyayı dönüştürün
+            Dünya formatınızı `leveldb` formatına dönüştürebilen bir dönüştürücü kullanın.
+            Önerimiz [Chunker](https://chunker.app/)
+
+            ### `worlds` klasörüne kopyalayın
+            Dönüştürdüğünüz dünyayı sunucunuzun `worlds` klasörüne kopyalayın.
+
+            ### Yapılandırma ekleyin
+            Dünyanız için uygun bir <a href="/worlds/config">yapılandırma dosyası</a> oluşturun.
+
+            ### Sunucuyu yeniden başlatın
+            Dünya sunucu açılışında yüklenecektir.
+        </Steps>
+    </Tabs.Tab>
+</Tabs>

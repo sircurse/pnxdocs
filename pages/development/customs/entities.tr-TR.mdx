@@ -1,0 +1,98 @@
+import { Callout } from "nextra/components";
+
+<Callout type={"info"}>
+    Özel Varlık kullanırken, oyuncuların gerekli tüm doku, geometri ve entity dosyalarını içeren bir kaynak paketine ihtiyacı olacaktır.
+    Daha fazla bilgi için: <a href="https://wiki.bedrock.dev">wiki.bedrock.dev</a>
+</Callout>
+
+# Özel Varlıklar
+
+PNX üzerinde kendi özel varlıklarınızı (entity) oluşturabilirsiniz. Kullandığınız kaynak paketinde gerekli tüm texture, geometry ve entity dosyalarının bulunduğundan emin olun.
+Bu örnekte, <a href="https://github.com/PowerNukkitX/ExamplePlugin-Maven/tree/master/src/main/resources/assets/resource_pack">PNX Örnek Kaynak Paketi</a> kullanılacaktır.
+
+## Özel Bir Varlık Kaydetmek
+
+Varlığınızı plugin yüklenirken (enabled olmadan önce) kaydetmeniz önerilir. Bu işlemi `onLoad` fonksiyonu içinde gerçekleştirebilirsiniz.
+
+```java
+// Gerekli importlar
+import cn.nukkit.registry.EntityRegistry;
+import cn.nukkit.registry.RegisterException;
+import cn.nukkit.registry.Registries;
+
+@Override
+public void onLoad() {
+    try {
+        // EntityRegistry'ye özel entity'nizi kaydedin.
+        // Resource pack'teki tanımlayıcı adı kullanın.
+        // spawn yumurtası olacak mı (false), /summon ile çağrılabilir mi (true) ayarlanır.
+        Registries.ENTITY.registerCustomEntity(this, new EntityRegistry.CustomEntityDefinition("powernukkitx:boar", "", false, true), MyPig.class);
+
+        // Kayıttan sonra, entity NBT tag'ını yeniden oluşturun.
+        Registries.ENTITY.rebuildTag();
+    } catch (RegisterException e) {
+        throw new RuntimeException(e);
+    }
+}
+```
+
+## Entity Sınıfınızı Tanımlama
+
+Yukarıda [Özel Varlık Kaydı](#özel-bir-varlık-kaydetmek) bölümünde öğrendiğimiz gibi, her özel varlığın karşılık gelen bir sınıfı olmalıdır ve bu sınıf yaklaşık olarak şöyle görünür:
+
+```java
+// Gerekli importlar
+import cn.nukkit.entity.Entity;
+import cn.nukkit.entity.custom.CustomEntity;
+import cn.nukkit.level.format.IChunk;
+import cn.nukkit.nbt.tag.CompoundTag;
+import org.jetbrains.annotations.NotNull;
+
+public class MyPig extends Entity implements CustomEntity {
+
+    public MyPig(IChunk chunk, CompoundTag nbt) {
+        super(chunk, nbt);
+    }
+
+    @Override
+    public @NotNull String getIdentifier() {
+        return "powernukkitx:boar"; // Resource pack'teki tanımlayıcı
+    }
+
+    @Override
+    public String getOriginalName() {
+        return "boar"; // Orijinal ad
+    }
+}
+```
+
+Eğer birden fazla texture veya geometri kullanmak istiyorsanız EntityMarkVariant ve EntityVariant arayüzlerini de CustomEntity'den sonra ekleyerek kullanabilirsiniz.
+
+## Entity'yi Oyuna Ekleme (Spawn Etme)
+
+[Özel Varlığı Kaydettikten](#özel-bir-varlık-kaydetmek) ve [Varlığı Tanımladıktan](#entity-sınıfınızı-tanımlama) sonra, varlığımızı (bu örnekte `MyPig`) referans gösterip `entity.spawnToAll();` veya `entity.spawnTo(player);` gibi spawn fonksiyonlarını çağırarak doğurabiliriz. İşte bir oyuncu komut kullandığında varlığın doğurulmasına örnek:
+
+```java
+@Override
+public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+    if (sender.isPlayer()) {
+        Player player = sender.asPlayer();
+
+        // Entity oluşturuluyor, chunk ve NBT bilgileri veriliyor
+        MyPig boar = new MyPig(player.getChunk(), Entity.getDefaultNBT(player));
+
+        // Tüm oyunculara gösterilecek şekilde spawn edilir
+        boar.spawnToAll();
+
+        // Sadece komutu kullanan oyuncuya gösterilecek şekilde spawn edilir
+        boar.spawnTo(player);
+
+        return true;
+    } else {
+        return false;
+    }
+}
+```
+
+## Yardım mı Lazım?
+Daha fazla bilgi için <a href="https://github.com/PowerNukkitX/ExamplePlugin-Maven">örnek eklentiye</a> göz atabilir veya <a href="https://discord.powernukkitx.org">resmi Discord sunucumuza</a> katılarak destek alabilirsiniz.

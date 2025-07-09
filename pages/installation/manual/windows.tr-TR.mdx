@@ -1,0 +1,98 @@
+import { Callout, FileTree, Steps } from "nextra/components";
+
+# PowerNukkitX’in Windows için Manuel Kurulumu
+
+Aşağıdaki adımlar Windows içindir.
+<Steps>
+    ### ZIP Arşivini İndirin
+    PowerNukkitX <a href="">indir sayfasından</a> `powernukkitx-run.zip` arşivini indirin.
+
+    ### PowerNukkitX için Bir Klasör Oluşturun
+    PowerNukkitX için örneğin `server` adında bir klasör oluşturun.
+
+    ### Arşivi Çıkartın
+    ZIP arşivinin içeriğini oluşturduğunuz klasöre çıkarın. Klasör yapınız şöyle görünmelidir:
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.Folder name="libs">
+                <FileTree.File name="annotations-24.1.0.jar" />
+                <FileTree.File name="asm-9.7.jar" />
+                <FileTree.File name="checker-qual-3.41.0.jar" />
+                <FileTree.File name="collections-23.1.3.jar" />
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.File name="powernukkitx-run.zip" />
+            <FileTree.File name="cli.jar" />
+            <FileTree.File name="powernukkitx.jar" />
+        </FileTree.Folder>
+    </FileTree>
+
+    <Callout type="default">
+        `cli.jar` dosyasını silebilirsiniz, çünkü `start.bat` dosyasını kullanacağız ve bu dosya kullanılmayacak.
+    </Callout>
+
+    <Callout type="info">
+        ZIP arşivini çıkardıktan sonra silebilirsiniz.
+    </Callout>
+
+    ### start.bat Dosyasını İndirin
+    PowerNukkitX <a href="https://github.com/PowerNukkitX/scripts/tree/master">indir sayfasından</a> `start.bat` başlangıç dosyasını indirin.
+
+    ### Klasör Yapısı
+    Klasör yapınız aşağıdaki gibi olmalıdır:
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.Folder name="libs">
+                <FileTree.File name="annotations-24.1.0.jar" />
+                <FileTree.File name="asm-9.7.jar" />
+                <FileTree.File name="checker-qual-3.41.0.jar" />
+                <FileTree.File name="collections-23.1.3.jar" />
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.File name="start.bat" />
+            <FileTree.File name="powernukkitx.jar" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Sunucuyu Başlatın
+    `start.bat` dosyasına çift tıklayarak sunucuyu başlatın.
+
+    Başlatıldıktan sonra klasör yapınız şöyle olmalıdır:
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.Folder name="command_data">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="libs">
+                <FileTree.File name="annotations-24.1.0.jar" />
+                <FileTree.File name="asm-9.7.jar" />
+                <FileTree.File name="checker-qual-3.41.0.jar" />
+                <FileTree.File name="collections-23.1.3.jar" />
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="logs">
+                <FileTree.File name="server.log" />
+            </FileTree.Folder>
+            <FileTree.Folder name="players">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="plugins">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="worlds">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.File name="start.bat" />
+            <FileTree.File name="powernukkitx.jar" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Sunucunuz Çevrimiçi
+    Artık sunucunuzun IP adresi ve varsayılan port `19132` ile bağlanabilirsiniz.
+
+    <Callout type="error">
+        Uyarı: Bazı kişiler yerel IP `127.0.0.1` kullanarak sunucularına bağlanamayabilir. Bunu düzeltmek için bir komut mevcuttur.
+    </Callout>
+</Steps>

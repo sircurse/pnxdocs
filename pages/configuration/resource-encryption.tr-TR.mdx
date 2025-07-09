@@ -1,0 +1,38 @@
+import { Callout } from "nextra/components";
+
+# Kaynak Paketi Şifreleme
+
+Kaynak paketi şifreleme, PowerNukkitX’in kendi şifrelediğiniz kaynak paketlerini kullanmanızı sağlar. Oyuncu istemcisinin paketi sorunsuz yükleyebilmesi için, aşağıdaki rehbere göre kaynak paketinize 32 karakterlik bir anahtar (key) yapılandırmanız yeterlidir.
+
+***Sadece 3 adım, hemen başlayın!***
+
+<Callout type="warning" emoji="⚠️">
+    Lütfen dikkat edin, kaynak paketi şifreleme `AES` simetrik anahtar şifreleme kullandığı için, kötü niyetli kişilerin kaynak paketinizi çalmasını tamamen engelleyemez.
+</Callout>
+
+## 1. Kaynak paketimi şifrele
+Kaynak paketinizi şifrelemek için bir araç seçin.
+Önerimiz [EncryptMyPack](https://github.com/AllayMC/EncryptMyPack) kullanmanızdır.
+
+Bazı önlemler:
+- Kaynak paketi `.mcpack` uzantısıyla bitmelidir. Şu anda ZIP dosyası kullanıyorsanız, sadece uzantısını `.mcpack` olarak değiştirin.
+- Dosyanın kök dizini klasör içermemelidir. `manifest.json` dosyası kaynak paketinin kök dizininde görünür olmalıdır.
+
+<Callout type="info">
+    PowerNukkitX kendisi herhangi bir şifreleme ya da çözme işlemi yapmaz, sadece yapılandırmanıza göre şifreleme anahtarlarını istemciye iletir.
+</Callout>
+
+## 2. Anahtarınızı yapılandırın
+Kaynak paketinize karşılık gelen ve `.key` uzantılı yeni bir dosya oluşturun.
+Dosyayı oluşturduktan sonra şifreleme anahtarını içine yapıştırın.
+
+`resource_packs` klasörünüzün örnek dosya yapısı:
+
+| Dosya          | Açıklama                                    |
+|----------------|---------------------------------------------|
+| x1.mcpack      | `x1` adlı kaynak paketi                      |
+| x1.mcpack.key  | `x1.mcpack` kaynak paketinin anahtar dosyası |
+
+## 3. Değişikliklerin geçerli olması için sunucuyu yeniden başlatın
+
+PowerNukkitX sadece başlangıçta `resource_packs` klasörü içindeki dosyaları yükler.

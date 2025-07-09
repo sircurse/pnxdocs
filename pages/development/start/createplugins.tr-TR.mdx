@@ -1,0 +1,98 @@
+import { Callout, FileTree, Steps, Tabs } from "nextra/components";
+
+# Eklenti Oluştururken
+
+<Callout type={"info"}>Bu sayfada eklentiniz için temel bir `Maven` ve `Gradle` yapılandırması bulabilirsiniz.</Callout>
+
+## IntelliJ
+
+### Çalışma Alanını Hazırlama
+Öncelikle yeni bir Java projesi oluşturun. Build sistemi olarak Maven’ı veya Gradle'ı seçin ve en az JDK 21’i seçtiğinizden emin olun.
+`Add sample code` seçeneğini işaretleyip Oluştur'a tıklayın.
+
+### Maven
+Projenizin `pom.xml` dosyasını açın ve `<project>` etiketi içine aşağıdaki kodu yapıştırın:
+```xml filename="pom.xml"
+<repositories>
+    <repository>
+        <id>PowerNukkitX</id>
+        <name>PowerNukkitX Deposu</name>
+        <url>https://repo.powernukkitx.org/<repository></url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>org.powernukkitx</groupId>
+        <artifactId>server</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </dependency>
+</dependencies>
+```
+
+### Gradle
+Projenizin `build.gradle.kts` dosyasını açın ve ilgili alanlara kodu yapıştırın.
+
+```kts filename="build.gradle.kts"
+repositories {
+    mavenCentral()
+    maven {
+        url = uri("https://jitpack.io")
+    }
+}
+
+dependencies {
+    implementation("com.github.PowerNukkitX:PowerNukkitX:master-SNAPSHOT")
+}
+```
+
+### plugin.yml Dosyası Oluşturma
+PowerNukkitX kullanırken eklentiniz hakkında bilgi içeren bir kaynak dosyaya ihtiyacınız vardır.
+Bu dosya `powernukkitx.yml` veya `plugin.yml` olabilir.
+Dosyayı oluşturup içine aşağıdaki yml verisini yapıştırın. Projenize göre bazı değerleri değiştirmeniz gerekebilir.
+```yml filename="plugin.yml"
+name: ExamplePlugin
+main: org.powernukkitx.exampleplugin.Main
+# Unutmayın: version ve api string türündedir, 1.0.0 gibi yazarsanız hata oluşur
+version: "1.0.0"
+api: "2.0.0"
+load: POSTWORLD
+author: PowerNukkitX Ekibi
+# author ve authors birlikte tek bir liste olarak işlenir
+authors: ["Example", "Another"]
+description: PNX dokümanlarından örnek eklenti
+website: https://docs.powernukkitx.org/
+```
+
+### Kendi Kodunu Yazma
+Artık kendi kodunuzu yazmaya başlayabilirsiniz. Projenizde oluşturulan Main.java dosyasını açın.
+`Main` sınıfını silip yerine aşağıdaki kodu yapıştırın:
+```java filename="ExamplePlugin.java"
+public class ExamplePlugin extends PluginBase {
+    @Override
+    public void onLoad() {
+        this.getLogger().info(TextFormat.WHITE + "Örnek eklenti yüklendi!");
+    }
+
+    @Override
+    public void onEnable() {
+        this.getLogger().info(TextFormat.DARK_GREEN + "Örnek eklenti başarıyla başlatıldı!");
+    }
+
+    @Override
+    public void onDisable() {
+        this.getLogger().info(TextFormat.DARK_RED + "Örnek eklenti devre dışı bırakıldı!");
+    }
+}
+```
+
+Gerekli importları da unutmayın:
+```java
+import cn.nukkit.plugin.PluginBase;
+import cn.nukkit.utils.TextFormat;
+```
+
+**Tebrikler! Artık `mvn package` || `./gradlew assemble` ile eklentinizi derleyip PNX sunucunuzun plugins klasörüne koyup sunucuyu yeniden başlatabilirsiniz.**
+
+### Yardıma mı ihtiyacınız var?
+Yardıma ihtiyacınız olursa <a href="https://github.com/PowerNukkitX/ExamplePlugin-Maven">Örnek eklenti</a>ye göz atabilir veya <a href="https://discord.powernukkitx.org">Discord sunucumuza</a> katılarak yardım isteyebilirsiniz.

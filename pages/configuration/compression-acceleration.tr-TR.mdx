@@ -1,0 +1,44 @@
+import { Steps } from "nextra/components";
+
+# Donanım Destekli Sıkıştırma Hızlandırma
+
+Donanım Destekli Sıkıştırma Hızlandırma (HCA), PowerNukkitX tarafından sunulan isteğe bağlı bir özelliktir ve modern CPU'lardaki donanım SIMD kullanarak veri sıkıştırmayı hızlandırabilir.
+
+## Neden?
+
+PowerNukkitX büyük sunucular için uygundur. Birçok sunucu aynı anda onlarca hatta yüzlerce oyuncu taşır, bu da her oyuncunun büyük miktarda veri üretmesi demektir. Bedrock sürümü gereklilikleri nedeniyle, bu veriler oyuncuya gönderilmeden önce sıkıştırılmalıdır.
+Aynı zamanda, oyuncu haritada dolaşırken oluşturulan çok sayıda chunk sık sık sıkıştırılıp açılmalıdır.
+Sıkıştırılması veya açılması gereken bu veriler çok fazla CPU kaynağı tüketir. **HCA** kullanmak performansı büyük ölçüde artırabilir.
+
+## Hangi CPU'lar bunu etkinleştirebilir?
+
+CPU'nuz donanım destekli sıkıştırmayı etkinleştirebiliyorsa, başlangıçta size bildirim gösterilir.
+
+CPU'nuz aşağıdaki komut setlerinden bir veya birkaçını destekliyorsa, **HCA** etkinleştirilebilir. Desteklenen komut seti sayısı arttıkça performans artışı ve gelişmişlik seviyesi yükselir:
+
+| Komut Seti   | Açıklama  |
+|--------------|-----------|
+| AVX512       | Intel/AMD |
+| AVX2         | Intel/AMD |
+| AVX          | Intel/AMD |
+| SSE4.2       | Intel/AMD |
+| SSE4.1       | Intel/AMD |
+| SSSE3        | Intel/AMD |
+| SSE3         | Intel/AMD |
+| SSE2         | Intel/AMD |
+| SSE          | Intel/AMD |
+| SVE          | ARMv8.2+  |
+| NEON         | ARMv7+    |
+
+## Nasıl etkinleştirilir?
+
+<Steps>
+    ### Yapılandırma dosyası <a href="/configuration/files/pnx-yml">pnx.yml</a> açın.
+    ### `network` sekmesini bulun.
+    ### `zlibProvider` değeri `3` olarak ayarlayın.
+
+    ```yaml filename="pnx.yml"
+    network:
+        zlibProvider: 3
+    ```
+</Steps>

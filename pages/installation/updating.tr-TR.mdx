@@ -1,0 +1,64 @@
+import { Callout, Tabs, Steps } from "nextra/components";
+
+# Sunucuyu Güncelleme
+
+## Otomatik Güncelleme
+PowerNukkitX, konsolda yeni bir güncelleme hazır olduğunda sizi bilgilendirecektir.
+
+## Manuel Güncelleme
+
+<Callout type="error">**Sunucuyu güncellemeden önce kapattığınızdan emin olun!** Beklenmedik hatalarda veri kaybını önlemek için yedek almanızı öneriyoruz.</Callout>
+
+<Tabs items={['CLI/Manuel', 'Shaded JAR']}>
+    <Tabs.Tab label="CLI/Manuel">
+        <Steps>
+            ### Github üzerinden en son sürümü indirin
+            `powernukkitx-run.zip` arşivini aşağıdaki komutlardan biriyle indirin:
+            <Tabs items={['wget', 'curl', 'manuel']}>
+                <Tabs.Tab label="wget">
+                    ```bash
+                    wget https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-run.zip
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab label="curl">
+                    ```bash
+                    curl -O https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-run.zip
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab label="manuel">
+                    `powernukkitx-run.zip` arşivini PowerNukkitX’in <a href="">indirme sayfasından</a> manuel olarak indirin.
+                </Tabs.Tab>
+            </Tabs>
+
+            ### İçeriği Değiştirin
+            Sunucunuzun eski dosyalarını `powernukkitx-run.zip` içeriğiyle değiştirin.
+
+            ### Sunucuyu Tekrar Başlatın
+        </Steps>
+    </Tabs.Tab>
+    <Tabs.Tab label="Shaded JAR">
+        <Steps>
+            ### Github üzerinden en son shaded JAR dosyasını indirin
+            <Tabs items={['wget', 'curl', 'manuel']}>
+                <Tabs.Tab label="wget">
+                    ```bash
+                    wget https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab label="curl">
+                    ```bash
+                    curl -O https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab label="manuel">
+                    Çalıştırılabilir `powernukkitx-shaded.jar` dosyasını PowerNukkitX’in <a href="">indirme sayfasından</a> manuel olarak indirin.
+                </Tabs.Tab>
+            </Tabs>
+
+            ### Çalıştırılabilir Dosyayı Değiştirin
+            Eski çalıştırılabilir dosyayı yeni `powernukkitx-shaded.jar` ile değiştirin.
+
+            ### Sunucuyu Tekrar Başlatın
+        </Steps>
+    </Tabs.Tab>
+</Tabs>
