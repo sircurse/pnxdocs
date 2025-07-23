@@ -23,7 +23,7 @@ const config: DocsThemeConfig = {
             return <></>
         }
     },
-    primarySaturation: 0,
+//    primarySaturation: 0,
     head: function useHead() {
 
         const description = "PowerNukkitX Docs"
@@ -78,7 +78,7 @@ const config: DocsThemeConfig = {
     },
     toc: {
         float: true,
-        backToTop: true,
+//        backToTop: true,
     },
     i18n: [
         { locale: 'en-US', text: 'English' },
