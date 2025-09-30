@@ -1,6 +1,10 @@
 {
   "index": "Introduction",
-  "requirements": "Exigences",
+  "requirements": "Prérequis",
   "installation": "Installation",
-    "configuration": "Configuration"
+  "updating": "Mise à jour",
+  "configuration": "Configuration",
+  "worlds": "Mondes",
+  "extensions": "Extensions",
+  "development": "Pour les développeurs"
 }

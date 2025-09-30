@@ -1,0 +1,90 @@
+import { Callout, FileTree, Steps } from "nextra/components";
+
+# Manual Installation of PowerNukkitX for Windows
+
+The following steps are for Windows.
+
+<Steps>
+    ### Create a Folder for PowerNukkitX
+    Create a folder for PowerNukkitX, for example, `server`.
+
+    ### Navigate to the Folder
+    Open the folder you created (e.g. `server`).
+
+    ### Download the PowerNukkitX server
+    Download the <a href="https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar">PowerNukkitX</a> and place it inside the `server` folder.
+
+    ### Create a Startup File
+    Create a file named `start.bat` inside the `server` folder with the following content:
+    ```bat
+    java -Dfile.encoding=UTF-8 ^
+        -Djansi.passthrough=true ^
+        -Dterminal.ansi=true ^
+        -XX:+UseZGC ^
+        -XX:+ZGenerational ^
+        -XX:+UseStringDeduplication ^
+        --add-opens java.base/java.lang=ALL-UNNAMED ^
+        --add-opens java.base/java.io=ALL-UNNAMED ^
+        --add-opens java.base/java.net=ALL-UNNAMED ^
+        -jar powernukkitx-shaded.jar
+    ```
+
+    ### Initial Folder Structure
+    Your folder should now look like this:
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.File name="powernukkitx-shaded.jar" />
+            <FileTree.File name="start.bat" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Start the Server
+    Double-click on `start.bat` to start the server.
+
+    After starting, the folder structure will automatically expand to something like this:
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.Folder name="command_data">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="logs">
+                <FileTree.File name="server.log" />
+            </FileTree.Folder>
+            <FileTree.Folder name="players">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="plugins">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="resource_packs">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="structures">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="worlds">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.File name="pnx.yml" />
+            <FileTree.File name="powernukkitx-shaded.jar" />
+            <FileTree.File name="start.bat" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Your Server is Now Online
+    You can now connect to your server using your server's IP address and the default port `19132`.
+
+    <Callout type="error">
+        Warning: Some people may not be able to connect to their server using the local IP `127.0.0.1`.  
+        If this happens, try connecting with your LAN IP (for example `192.168.x.x`).
+
+        On Windows 10, Minecraft for Windows (UWP) blocks loopback to `127.0.0.1` by default.  
+        To allow it, open **PowerShell as Administrator** and run:
+        ```powershell
+        CheckNetIsolation LoopbackExempt -a -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe
+        ```
+        (You can undo it with `CheckNetIsolation LoopbackExempt -d -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe`.)
+    </Callout>
+</Steps>

@@ -27,53 +27,116 @@ try {
 ## Defining your item
 This is the minimum setup for your custom item. You can extend it as you wish.
 
+Weapon Example:
 ```java
+import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemDiamondSword;
+import cn.nukkit.item.customitem.CustomItem;
 import cn.nukkit.item.customitem.CustomItemDefinition;
-import cn.nukkit.item.customitem.ItemCustomTool;
 import cn.nukkit.item.customitem.data.CreativeCategory;
+import cn.nukkit.item.customitem.data.CreativeGroup;
+import cn.nukkit.item.utils.ItemEnchantSlot;
 
-public class MySword extends ItemCustomTool {
+
+public class MySword extends Item implements CustomItem {
     public MySword() {
-        super("powernukkitx:test_sward");
+        super("powernukkitx:test_sword");
     }
 
     @Override
     public CustomItemDefinition getDefinition() {
         return CustomItemDefinition
-                .toolBuilder(this)
+                .simpleBuilder(this)
                 .creativeCategory(CreativeCategory.EQUIPMENT)
-                .texture("test_sward")
+                .creativeGroup(CreativeGroup.SWORD)
+                .texture("test_sword")
                 .name("Sword")
-                .allowOffHand(true)
+                .allowOffHand(false)
                 .handEquipped(true)
-                .foil(true)
+                .glint(true)
+                .damage(30)
+                .enchantable(ItemEnchantSlot.SWORD, 20)
+                .durability(1000, 5, 30)
                 .build();
-    }
-
-    @Override
-    public int getMaxDurability() {
-        return 1000;
     }
 
     @Override
     public int getTier() {
         return ItemDiamondSword.TIER_DIAMOND;
     }
+}
+```
 
-    @Override
-    public int getAttackDamage() {
-        return 30;
+Tool Example:
+```java
+import cn.nukkit.item.Item;
+import cn.nukkit.item.ItemDiamondSword;
+import cn.nukkit.item.customitem.CustomItem;
+import cn.nukkit.item.customitem.CustomItemDefinition;
+import cn.nukkit.item.customitem.data.CreativeCategory;
+import cn.nukkit.item.customitem.data.CreativeGroup;
+import cn.nukkit.item.utils.DiggerEntry;
+import cn.nukkit.item.utils.ItemEnchantSlot;
+
+
+public class MyTool extends Item implements CustomItem {
+    public MyTool() {
+        super("powernukkitx:test_tool");
     }
 
     @Override
-    public int getEnchantAbility() {
-        return 20;
+    public CustomItemDefinition getDefinition() {
+        return CustomItemDefinition
+                .simpleBuilder(this)
+                .creativeCategory(CreativeCategory.EQUIPMENT)
+                .creativeGroup(CreativeGroup.PICKAXE)
+                .texture("test_tool")
+                .name("My Tool")
+                .allowOffHand(false)
+                .handEquipped(true)
+                .glint(true)
+                .enchantable(ItemEnchantSlot.PICKAXE, 20)
+                .durability(1000, 5, 30)
+                .digger(
+                        DiggerEntry.block("minecraft:coal_ore", 2),
+                        DiggerEntry.create().speed(6).addAllWooden(),
+                        DiggerEntry.create().speed(5).addTags("'my_custom_tag'")
+                    )
+                .build();
     }
 
     @Override
-    public boolean isSword() {
-        return true;
+    public int getTier() {
+        return ItemDiamondPickaxe.TIER_DIAMOND;
+    }
+}
+```
+
+
+Simple Item Example:
+```java
+import cn.nukkit.item.Item;
+import cn.nukkit.item.customitem.CustomItem;
+import cn.nukkit.item.customitem.CustomItemDefinition;
+import cn.nukkit.item.customitem.data.CreativeCategory;
+
+
+public class MyItem extends Item implements CustomItem {
+    public MyItem() {
+        super("powernukkitx:test_item");
+    }
+
+    @Override
+    public CustomItemDefinition getDefinition() {
+        return CustomItemDefinition
+                .simpleBuilder(this)
+                .creativeCategory(CreativeCategory.ITEMS)
+                .texture("test_item")
+                .name("My Item")
+                .allowOffHand(false)
+                .handEquipped(true)
+                .glint(true)
+                .build();
     }
 }
 ```

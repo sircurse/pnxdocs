@@ -1,0 +1,88 @@
+import { Callout, FileTree, Steps, Tabs } from "nextra/components";
+
+# Installation manuelle de PowerNukkitX pour Linux
+
+Les étapes suivantes sont pour Debian, mais elles peuvent être adaptées à d’autres distributions Linux.
+
+<Callout type="default">Vous aurez besoin de `wget` ou `curl` et de `unzip` pour télécharger et extraire le fichier du serveur.  
+Si vous ne les avez pas, vous pouvez les installer avec `apt install wget unzip`.</Callout>
+
+<Steps>
+    ### Créer un dossier pour PowerNukkitX
+    Créez un dossier pour PowerNukkitX, par exemple `server` :
+    ```bash
+    mkdir server
+    ```
+
+    ### Accéder au dossier
+    Accédez au dossier que vous avez créé :
+    ```bash
+    cd server
+    ```
+
+    ### Télécharger le serveur PowerNukkitX
+    Téléchargez le fichier `powernukkitx-shaded.jar` avec la commande suivante :
+    <Tabs items={['wget', 'curl']}>
+        <Tabs.Tab label="wget">
+            ```bash
+            wget https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+            ```
+        </Tabs.Tab>
+        <Tabs.Tab label="curl">
+            ```bash
+            curl -O https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+            ```
+        </Tabs.Tab>
+    </Tabs>
+
+    ### Démarrer le serveur
+    Pour démarrer le serveur PNX, assurez-vous que Java21 est installé, sinon veuillez l’installer (<a href="https://docs-pnx.pages.dev/requirements">prérequis</a>) :
+
+    ### Commandes de démarrage
+    Les options les plus recommandées pour démarrer PNX sont ci-dessous, vous pouvez simplement exécuter la commande telle quelle :
+    ```bash
+    java -Dfile.encoding=UTF-8 \
+        -Djansi.passthrough=true \
+        -Dterminal.ansi=true \
+        -XX:+UseZGC \
+        -XX:+ZGenerational \
+        -XX:+UseStringDeduplication \
+        --add-opens java.base/java.lang=ALL-UNNAMED \
+        --add-opens java.base/java.io=ALL-UNNAMED \
+        --add-opens java.base/java.net=ALL-UNNAMED \
+        -jar powernukkitx-shaded.jar
+    ```
+
+    Après le démarrage, la structure de votre dossier devrait ressembler à ceci :
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.Folder name="command_data">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="logs">
+                <FileTree.File name="server.log" />
+            </FileTree.Folder>
+            <FileTree.Folder name="players">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="plugins">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="resource_packs">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="structures">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="worlds">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.File name="pnx.yml" />
+            <FileTree.File name="powernukkitx-shaded.jar" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Votre serveur est maintenant en ligne
+    Vous pouvez maintenant vous connecter à votre serveur en utilisant l’adresse IP de votre serveur et le port par défaut `19132`.
+</Steps>

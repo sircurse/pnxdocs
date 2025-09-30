@@ -1,0 +1,38 @@
+import { Callout, Tabs, Steps } from "nextra/components";
+
+# Mettre à jour un serveur
+
+## Mise à jour automatique
+PowerNukkitX vous avertira dans la console si une nouvelle mise à jour est prête à être déployée.
+
+## Mise à jour manuelle
+
+<Callout type="error">**Assurez-vous d’arrêter votre serveur avant de le mettre à jour !** Nous vous recommandons de créer une sauvegarde afin d’éviter toute perte de données en cas d’erreurs inattendues.</Callout>
+
+<Tabs items={['Shaded JAR']}>
+    <Tabs.Tab label="Shaded JAR">
+        <Steps>
+            ### Téléchargez le dernier shaded JAR depuis Github
+            <Tabs items={['wget', 'curl', 'manual']}>
+                <Tabs.Tab label="wget">
+                    ```bash
+                    wget https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab label="curl">
+                    ```bash
+                    curl -O https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab label="manual">
+                    Téléchargez <a href="https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar">PowerNukkitX</a>.
+                </Tabs.Tab>
+            </Tabs>
+
+            ### Remplacez l’exécutable
+            Remplacez l’ancien fichier exécutable par le nouveau `powernukkitx-shaded.jar`.
+
+            ### Redémarrez le serveur.
+        </Steps>
+    </Tabs.Tab>
+</Tabs>

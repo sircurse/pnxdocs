@@ -1,0 +1,38 @@
+import { Callout, Tabs, Steps } from "nextra/components";
+
+# Bir sunucuyu güncelleme
+
+## Otomatik güncelleme
+PowerNukkitX, yeni bir güncelleme hazır olduğunda konsolda sizi bilgilendirecektir.
+
+## Manuel güncelleme
+
+<Callout type="error">**Sunucunuzu güncellemeden önce kapattığınızdan emin olun!** Beklenmeyen hatalar oluşması durumunda veri kaybını önlemek için yedek almanızı tavsiye ederiz.</Callout>
+
+<Tabs items={['Shaded JAR']}>
+    <Tabs.Tab label="Shaded JAR">
+        <Steps>
+            ### Github’dan en son shaded JAR dosyasını indirin
+            <Tabs items={['wget', 'curl', 'manual']}>
+                <Tabs.Tab label="wget">
+                    ```bash
+                    wget https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab label="curl">
+                    ```bash
+                    curl -O https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab label="manual">
+                    <a href="https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar">PowerNukkitX</a> dosyasını indirin.
+                </Tabs.Tab>
+            </Tabs>
+
+            ### Yürütülebilir dosyayı değiştirin
+            Eski yürütülebilir dosyayı yeni `powernukkitx-shaded.jar` ile değiştirin.
+
+            ### Sunucuyu tekrar başlatın.
+        </Steps>
+    </Tabs.Tab>
+</Tabs>

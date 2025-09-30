@@ -1,5 +1,4 @@
 {
-  "cli": "CLI (recommended)",
-  "manual": "Manual",
-  "updating": "Updating a server"
+  "windows": "Windows",
+  "linux": "Linux"
 }

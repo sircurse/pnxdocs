@@ -1,0 +1,90 @@
+import { Callout, FileTree, Steps } from "nextra/components";
+
+# Windows için PowerNukkitX’in Manuel Kurulumu
+
+Aşağıdaki adımlar Windows içindir.
+
+<Steps>
+    ### PowerNukkitX için bir klasör oluşturun
+    PowerNukkitX için bir klasör oluşturun, örneğin `server`.
+
+    ### Klasöre gidin
+    Oluşturduğunuz klasörü açın (ör. `server`).
+
+    ### PowerNukkitX sunucusunu indirin
+    <a href="https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar">PowerNukkitX</a> dosyasını indirin ve `server` klasörünün içine yerleştirin.
+
+    ### Başlatma dosyası oluşturun
+    `server` klasörünün içinde `start.bat` adında bir dosya oluşturun ve içine şu içeriği ekleyin:
+    ```bat
+    java -Dfile.encoding=UTF-8 ^
+        -Djansi.passthrough=true ^
+        -Dterminal.ansi=true ^
+        -XX:+UseZGC ^
+        -XX:+ZGenerational ^
+        -XX:+UseStringDeduplication ^
+        --add-opens java.base/java.lang=ALL-UNNAMED ^
+        --add-opens java.base/java.io=ALL-UNNAMED ^
+        --add-opens java.base/java.net=ALL-UNNAMED ^
+        -jar powernukkitx-shaded.jar
+    ```
+
+    ### İlk klasör yapısı
+    Klasörünüz şimdi şöyle görünmelidir:
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.File name="powernukkitx-shaded.jar" />
+            <FileTree.File name="start.bat" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Sunucuyu başlatın
+    Sunucuyu başlatmak için `start.bat` dosyasına çift tıklayın.
+
+    Başlattıktan sonra klasör yapısı otomatik olarak genişleyecek ve şöyle görünecektir:
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.Folder name="command_data">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="logs">
+                <FileTree.File name="server.log" />
+            </FileTree.Folder>
+            <FileTree.Folder name="players">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="plugins">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="resource_packs">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="structures">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="worlds">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.File name="pnx.yml" />
+            <FileTree.File name="powernukkitx-shaded.jar" />
+            <FileTree.File name="start.bat" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Sunucunuz artık çevrimiçi
+    Artık sunucunuza, sunucunuzun IP adresini ve varsayılan `19132` portunu kullanarak bağlanabilirsiniz.
+
+    <Callout type="error">
+        Uyarı: Bazı kişiler yerel IP `127.0.0.1` ile sunucularına bağlanamayabilir.  
+        Bu durumda LAN IP’niz ile bağlanmayı deneyin (örneğin `192.168.x.x`).
+
+        Windows 10’da, Minecraft for Windows (UWP) varsayılan olarak `127.0.0.1` loopback bağlantısını engeller.  
+        Bunu etkinleştirmek için **PowerShell’i Yönetici olarak** açın ve şunu çalıştırın:
+        ```powershell
+        CheckNetIsolation LoopbackExempt -a -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe
+        ```
+        (İşlemi geri almak için: `CheckNetIsolation LoopbackExempt -d -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe`.)
+    </Callout>
+</Steps>
