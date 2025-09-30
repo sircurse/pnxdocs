@@ -1,0 +1,87 @@
+import { Callout, FileTree, Steps, Tabs } from "nextra/components";
+
+# Manual Installation of PowerNukkitX for Linux
+
+The following steps are for Debian, but they can be adapted for other Linux distributions.
+
+<Callout type="default">You will need `wget` or `curl` and `unzip` to download and extract the server file. If you don't have them, you can install them with `apt install wget unzip`.</Callout>
+
+<Steps>
+    ### Create a Folder for PowerNukkitX
+    Create a folder for PowerNukkitX, for example, `server`:
+    ```bash
+    mkdir server
+    ```
+
+    ### Navigate to the Folder
+    Navigate to the folder you created:
+    ```bash
+    cd server
+    ```
+
+    ### Download the PowerNukkitX server
+    Download the `powernukkitx-shaded.jar` file with the following command:
+    <Tabs items={['wget', 'curl']}>
+        <Tabs.Tab label="wget">
+            ```bash
+            wget https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+            ```
+        </Tabs.Tab>
+        <Tabs.Tab label="curl">
+            ```bash
+            curl -O https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+            ```
+        </Tabs.Tab>
+    </Tabs>
+
+    ### Start the Server
+    To start the PNX server make sure you have Java21 installed, if not please install it (<a href="https://docs-pnx.pages.dev/requirements">requirements</a>):
+
+    ### Start Commands
+    The most recommended flags to start the PNX are below, you can just run the command as is:
+    ```bash
+    java -Dfile.encoding=UTF-8 \
+        -Djansi.passthrough=true \
+        -Dterminal.ansi=true \
+        -XX:+UseZGC \
+        -XX:+ZGenerational \
+        -XX:+UseStringDeduplication \
+        --add-opens java.base/java.lang=ALL-UNNAMED \
+        --add-opens java.base/java.io=ALL-UNNAMED \
+        --add-opens java.base/java.net=ALL-UNNAMED \
+        -jar powernukkitx-shaded.jar
+    ```
+
+    After starting, your folder structure should look like this:
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.Folder name="command_data">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="logs">
+                <FileTree.File name="server.log" />
+            </FileTree.Folder>
+            <FileTree.Folder name="players">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="plugins">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="resource_packs">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="structures">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="worlds">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.File name="pnx.yml" />
+            <FileTree.File name="powernukkitx-shaded.jar" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Your Server is Now Online
+    You can now connect to your server using your server's IP address and the default port `19132`.
+</Steps>

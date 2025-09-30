@@ -1,0 +1,88 @@
+import { Callout, FileTree, Steps, Tabs } from "nextra/components";
+
+# Linux için PowerNukkitX’in Manuel Kurulumu
+
+Aşağıdaki adımlar Debian içindir, ancak diğer Linux dağıtımlarına uyarlanabilir.
+
+<Callout type="default">Sunucu dosyasını indirmek ve çıkarmak için `wget` veya `curl` ve `unzip` gereklidir.  
+Eğer bunlara sahip değilseniz, `apt install wget unzip` komutu ile kurabilirsiniz.</Callout>
+
+<Steps>
+    ### PowerNukkitX için bir klasör oluşturun
+    PowerNukkitX için bir klasör oluşturun, örneğin `server` :
+    ```bash
+    mkdir server
+    ```
+
+    ### Klasöre gidin
+    Oluşturduğunuz klasöre gidin:
+    ```bash
+    cd server
+    ```
+
+    ### PowerNukkitX sunucusunu indirin
+    `powernukkitx-shaded.jar` dosyasını aşağıdaki komut ile indirin:
+    <Tabs items={['wget', 'curl']}>
+        <Tabs.Tab label="wget">
+            ```bash
+            wget https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+            ```
+        </Tabs.Tab>
+        <Tabs.Tab label="curl">
+            ```bash
+            curl -O https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar
+            ```
+        </Tabs.Tab>
+    </Tabs>
+
+    ### Sunucuyu başlatın
+    PNX sunucusunu başlatmak için Java21’in yüklü olduğundan emin olun, değilse lütfen kurun (<a href="https://docs-pnx.pages.dev/requirements">gereksinimler</a>) :
+
+    ### Başlatma komutları
+    PNX’i başlatmak için en çok önerilen bayraklar aşağıdadır, komutu olduğu gibi çalıştırabilirsiniz:
+    ```bash
+    java -Dfile.encoding=UTF-8 \
+        -Djansi.passthrough=true \
+        -Dterminal.ansi=true \
+        -XX:+UseZGC \
+        -XX:+ZGenerational \
+        -XX:+UseStringDeduplication \
+        --add-opens java.base/java.lang=ALL-UNNAMED \
+        --add-opens java.base/java.io=ALL-UNNAMED \
+        --add-opens java.base/java.net=ALL-UNNAMED \
+        -jar powernukkitx-shaded.jar
+    ```
+
+    Başlattıktan sonra klasör yapınız aşağıdaki gibi görünmelidir:
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.Folder name="command_data">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="logs">
+                <FileTree.File name="server.log" />
+            </FileTree.Folder>
+            <FileTree.Folder name="players">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="plugins">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="resource_packs">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="structures">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="worlds">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.File name="pnx.yml" />
+            <FileTree.File name="powernukkitx-shaded.jar" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Sunucunuz artık çevrimiçi
+    Artık sunucunuza sunucunuzun IP adresini ve varsayılan `19132` portunu kullanarak bağlanabilirsiniz.
+</Steps>

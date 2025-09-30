@@ -1,5 +1,5 @@
 {
-  "cli": "CLI (önerilen)",
-  "manual": "Manuel",
+  "windows": "Windows",
+  "linux": "Linux",
   "updating": "Sunucu Güncelleme"
 }

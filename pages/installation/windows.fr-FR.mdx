@@ -1,0 +1,83 @@
+import { Callout, FileTree, Steps } from "nextra/components";
+
+# Installation manuelle de PowerNukkitX pour Windows
+
+Les étapes suivantes sont pour Windows.
+
+<Steps>
+    ### Créer un dossier pour PowerNukkitX
+    Créez un dossier pour PowerNukkitX, par exemple `server`.
+
+    ### Accéder au dossier
+    Ouvrez le dossier que vous avez créé (par ex. `server`).
+
+    ### Télécharger le serveur PowerNukkitX
+    Téléchargez <a href="https://github.com/PowerNukkitX/PowerNukkitX/releases/download/snapshot/powernukkitx-shaded.jar">PowerNukkitX</a> et placez-le dans le dossier `server`.
+
+    ### Créer un fichier de démarrage
+    Créez un fichier nommé `start.bat` dans le dossier `server` avec le contenu suivant :
+    ```bat
+    java -Dfile.encoding=UTF-8 ^
+        -Djansi.passthrough=true ^
+        -Dterminal.ansi=true ^
+        -XX:+UseZGC ^
+        -XX:+ZGenerational ^
+        -XX:+UseStringDeduplication ^
+        --add-opens java.base/java.lang=ALL-UNNAMED ^
+        --add-opens java.base/java.io=ALL-UNNAMED ^
+        --add-opens java.base/java.net=ALL-UNNAMED ^
+        -jar powernukkitx-shaded.jar
+    ```
+
+    ### Structure initiale du dossier
+    Votre dossier devrait maintenant ressembler à ceci :
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.File name="powernukkitx-shaded.jar" />
+            <FileTree.File name="start.bat" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Démarrer le serveur
+    Double-cliquez sur `start.bat` pour démarrer le serveur.
+
+    Après le démarrage, la structure du dossier s’élargira automatiquement pour ressembler à ceci :
+
+    <FileTree>
+        <FileTree.Folder name="server" defaultOpen>
+            <FileTree.Folder name="command_data">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="logs">
+                <FileTree.File name="server.log" />
+            </FileTree.Folder>
+            <FileTree.Folder name="players">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="plugins">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="resource_packs">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="structures">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.Folder name="worlds">
+                <FileTree.File name="..." />
+            </FileTree.Folder>
+            <FileTree.File name="pnx.yml" />
+            <FileTree.File name="powernukkitx-shaded.jar" />
+            <FileTree.File name="start.bat" />
+        </FileTree.Folder>
+    </FileTree>
+
+    ### Votre serveur est maintenant en ligne
+    Vous pouvez maintenant vous connecter à votre serveur en utilisant l’adresse IP de votre serveur et le port par défaut `19132`.
+
+    <Callout type="error">
+        Attention : certaines personnes peuvent ne pas réussir à se connecter à leur serveur en utilisant l’adresse IP locale `127.0.0.1`.  
+        Si cela se produit, essayez de vous connecter avec votre IP locale (par exemple `192.168.x.x`).
+    </Callout>
+</Steps>

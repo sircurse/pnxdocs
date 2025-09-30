@@ -28,53 +28,116 @@ try {
 ## Eşya Tanımı (Sınıfınız)
 Aşağıda minimum özel eşya tanımı örneği verilmiştir. Dilerseniz bunu daha fazla genişletebilirsiniz.
 
+Silah Örneği:
 ```java
+import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemDiamondSword;
+import cn.nukkit.item.customitem.CustomItem;
 import cn.nukkit.item.customitem.CustomItemDefinition;
-import cn.nukkit.item.customitem.ItemCustomTool;
 import cn.nukkit.item.customitem.data.CreativeCategory;
+import cn.nukkit.item.customitem.data.CreativeGroup;
+import cn.nukkit.item.utils.ItemEnchantSlot;
 
-public class MySword extends ItemCustomTool {
+
+public class MySword extends Item implements CustomItem {
     public MySword() {
-        super("powernukkitx:test_sward"); // Eşya kimliği
+        super("powernukkitx:test_sword");
     }
 
     @Override
     public CustomItemDefinition getDefinition() {
         return CustomItemDefinition
-                .toolBuilder(this)
-                .creativeCategory(CreativeCategory.EQUIPMENT) // Yaratıcı modda hangi kategoride gözükecek
-                .texture("test_sward") // textures/items/test_sward.png dosyasına karşılık gelmeli
-                .name("Kılıç") // Eşya adı
-                .allowOffHand(true) // Sol ele alınabilir mi?
-                .handEquipped(true) // Elde tutulduğunda donatılmış gibi gözüksün mü?
-                .foil(true) // Parlayan efekt olsun mu?
+                .simpleBuilder(this)
+                .creativeCategory(CreativeCategory.EQUIPMENT)
+                .creativeGroup(CreativeGroup.SWORD)
+                .texture("test_sword")
+                .name("Sword")
+                .allowOffHand(false)
+                .handEquipped(true)
+                .glint(true)
+                .damage(30)
+                .enchantable(ItemEnchantSlot.SWORD, 20)
+                .durability(1000, 5, 30)
                 .build();
     }
 
     @Override
-    public int getMaxDurability() {
-        return 1000; // Dayanıklılık değeri
+    public int getTier() {
+        return ItemDiamondSword.TIER_DIAMOND;
+    }
+}
+```
+
+Araç Örneği:
+```java
+import cn.nukkit.item.Item;
+import cn.nukkit.item.ItemDiamondSword;
+import cn.nukkit.item.customitem.CustomItem;
+import cn.nukkit.item.customitem.CustomItemDefinition;
+import cn.nukkit.item.customitem.data.CreativeCategory;
+import cn.nukkit.item.customitem.data.CreativeGroup;
+import cn.nukkit.item.utils.DiggerEntry;
+import cn.nukkit.item.utils.ItemEnchantSlot;
+
+
+public class MyTool extends Item implements CustomItem {
+    public MyTool() {
+        super("powernukkitx:test_tool");
+    }
+
+    @Override
+    public CustomItemDefinition getDefinition() {
+        return CustomItemDefinition
+                .simpleBuilder(this)
+                .creativeCategory(CreativeCategory.EQUIPMENT)
+                .creativeGroup(CreativeGroup.PICKAXE)
+                .texture("test_tool")
+                .name("My Tool")
+                .allowOffHand(false)
+                .handEquipped(true)
+                .glint(true)
+                .enchantable(ItemEnchantSlot.PICKAXE, 20)
+                .durability(1000, 5, 30)
+                .digger(
+                        DiggerEntry.block("minecraft:coal_ore", 2),
+                        DiggerEntry.create().speed(6).addAllWooden(),
+                        DiggerEntry.create().speed(5).addTags("'my_custom_tag'")
+                    )
+                .build();
     }
 
     @Override
     public int getTier() {
-        return ItemDiamondSword.TIER_DIAMOND; // Elmas seviyesinde
+        return ItemDiamondPickaxe.TIER_DIAMOND;
+    }
+}
+```
+
+
+Basit Ürün Örneği:
+```java
+import cn.nukkit.item.Item;
+import cn.nukkit.item.customitem.CustomItem;
+import cn.nukkit.item.customitem.CustomItemDefinition;
+import cn.nukkit.item.customitem.data.CreativeCategory;
+
+
+public class MyItem extends Item implements CustomItem {
+    public MyItem() {
+        super("powernukkitx:test_item");
     }
 
     @Override
-    public int getAttackDamage() {
-        return 30; // Saldırı gücü
-    }
-
-    @Override
-    public int getEnchantAbility() {
-        return 20; // Büyüleme yeteneği
-    }
-
-    @Override
-    public boolean isSword() {
-        return true; // Bu eşya bir kılıç olarak kabul edilsin mi?
+    public CustomItemDefinition getDefinition() {
+        return CustomItemDefinition
+                .simpleBuilder(this)
+                .creativeCategory(CreativeCategory.ITEMS)
+                .texture("test_item")
+                .name("My Item")
+                .allowOffHand(false)
+                .handEquipped(true)
+                .glint(true)
+                .build();
     }
 }
 ```
