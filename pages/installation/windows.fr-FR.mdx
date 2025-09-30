@@ -78,6 +78,13 @@ Les étapes suivantes sont pour Windows.
 
     <Callout type="error">
         Attention : certaines personnes peuvent ne pas réussir à se connecter à leur serveur en utilisant l’adresse IP locale `127.0.0.1`.  
-        Si cela se produit, essayez de vous connecter avec votre IP locale (par exemple `192.168.x.x`).
+        Si cela se produit, essayez de vous connecter avec votre adresse IP locale (par exemple `192.168.x.x`).
+
+        Sous Windows 10, Minecraft pour Windows (UWP) bloque par défaut la boucle locale vers `127.0.0.1`.  
+        Pour l’autoriser, ouvrez **PowerShell en tant qu’administrateur** et exécutez :
+        ```powershell
+        CheckNetIsolation LoopbackExempt -a -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe
+        ```
+        (Vous pouvez annuler cela avec : `CheckNetIsolation LoopbackExempt -d -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe`.)
     </Callout>
 </Steps>

@@ -79,5 +79,12 @@ The following steps are for Windows.
     <Callout type="error">
         Warning: Some people may not be able to connect to their server using the local IP `127.0.0.1`.  
         If this happens, try connecting with your LAN IP (for example `192.168.x.x`).
+
+        On Windows 10, Minecraft for Windows (UWP) blocks loopback to `127.0.0.1` by default.  
+        To allow it, open **PowerShell as Administrator** and run:
+        ```powershell
+        CheckNetIsolation LoopbackExempt -a -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe
+        ```
+        (You can undo it with `CheckNetIsolation LoopbackExempt -d -n=Microsoft.MinecraftUWP_8wekyb3d8bbwe`.)
     </Callout>
 </Steps>
