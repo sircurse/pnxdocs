@@ -16,11 +16,13 @@ Check the `Add sample code` option and click Create.
 ### Maven
 Open your project's `pom.xml` file and paste the following code inside the `<project>` tag:
 ```xml filename="pom.xml"
-<repository>
-  <id>PowerNukkitX-releases</id>
-  <name>PowerNukkitX Repository</name>
-  <url>https://repo.powernukkitx.org/releases</url>
-</repository>
+<repositories>
+    <repository>
+      <id>PowerNukkitX-releases</id>
+      <name>PowerNukkitX Repository</name>
+      <url>https://repo.powernukkitx.org/releases</url>
+    </repository>
+</repositories>
 
 <dependencies>
     <dependency>
