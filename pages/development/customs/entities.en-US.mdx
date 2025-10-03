@@ -22,10 +22,8 @@ import cn.nukkit.registry.Registries;
 @Override
 public void onLoad() {
     try {
-        // First, we register our custom entity in the EntityRegistry using its identifier from the resource pack.
-        // We also specify whether the entity has a spawn egg and if it should be summonable (e.g., via /summon powernukkitx:boar).
-        // Then, we link the entity to its corresponding class (MyPig).
-        Registries.ENTITY.registerCustomEntity(this, new EntityRegistry.CustomEntityDefinition("powernukkitx:boar", "", false, true), MyPig.class);
+        // Register the custom entity using the entity class
+        Registries.ENTITY.registerCustomEntity(this, MyPig.class);
         // After registration, we rebuild the NBT tag to include our new entity.
         Registries.ENTITY.rebuildTag();
     } catch (RegisterException e) {
@@ -46,30 +44,43 @@ import cn.nukkit.level.format.IChunk;
 import cn.nukkit.nbt.tag.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
+
 public class MyPig extends Entity implements CustomEntity {
+    public MyPig(IChunk chunk, CompoundTag nbt) { super(chunk, nbt); }
 
-    public MyPig(IChunk chunk, CompoundTag nbt) {
-        super(chunk, nbt);
-    }
+    public static final String IDENTIFIER = "powernukkitx:boar";
+    @Override public @NotNull String getIdentifier() { return IDENTIFIER; }
 
-    @Override
-    public @NotNull String getIdentifier() {
-        return "powernukkitx:boar";
-    }
-
-    @Override
-    public String getOriginalName() {
-        return "boar";
+    // Define your entity's components here
+    public static CustomEntityDefinition definition() {
+        return CustomEntityDefinition.simpleBuilder(IDENTIFIER)
+            .eid(IDENTIFIER)
+            .hasSpawnEgg(true) // If true, a spawn egg of this entity will be generated and can be found in the creative inventory
+            .isSummonable(false) // If false, you cannot spawn this entity by commands
+            .originalName("Boar") // A display name for the entity
+            .maxHealth(220) // Define the max health
+            .attack(0) // If the mob can attack you can define here its melee power
+            .movement(0.1f, 7.0f) // Default movement speed
+            .typeFamily("mob", "pig", "mypig") // Type family of the mob, useful for filterings on API and commands
+            .collisionBox(0.8f, 0.6f) // Collision box of the entity, where you can hit/interact with it
+            .knockbackResistance(0.6f) // The entity resistance against physical attacks
+            .maxAutoStep(1.0625f, 1.0625f, 0.5625f) // You can define the max auto-step of the entity, making it move over blocks without need to jump
+            .isPersistent(true) // If set true, the entity never despawns from distance
+            .build();
     }
 }
 ```
 
-We can also implement additional features like `MarkVariant` and `Variant`, which are useful if you have multiple textures or geometries. You can simply achieve this by adding `EntityMarkVariant, EntityVariant` after `CustomEntity`.
+You can also implement additional features like MarkVariant and Variant (e.g., multiple textures/geometries) by adding EntityMarkVariant, EntityVariant after CustomEntity.
 
 ## Spawning Your Entity
 
-After [Registering](#register-a-custom-entity) and [Defining](#defining-your-entity) our entity, we will be able to spawn it by referencing our entity class (in this example, `MyPig`) and calling a spawn function such as `entity.spawnToAll();` or `entity.spawnTo(player);`. Here is an example of spawning your entity when a player uses a command:
+After [Registering](#register-a-custom-entity) and [Defining](#defining-your-entity) our entity, you will be able to spawn the entity by some methods: 
+* **Summon command** (if `isSummonable(true)` is used)
+* **Spawn egg** (if `hasSpawnEgg(true)` is used), available in Creative
+* **API**: create an instance of your entity class (e.g., `MyPig`) and call a spawn method such as `spawnToAll()` or `spawnTo(player)`
 
+Example: spawn your entity with API:
 ```java
 @Override
 public boolean execute(CommandSender sender, String commandLabel, String[] args) {
@@ -79,11 +90,11 @@ public boolean execute(CommandSender sender, String commandLabel, String[] args)
         // Creating a new instance of our MyPig class and providing the required variables IChunk chunk and CompoundTag nbt to the Entity constructor.
         MyPig boar = new MyPig(player.getChunk(), Entity.getDefaultNBT(player));
 
-        // After creating our entity, we can spawn it for everyone on the server.
+        // Spawn it for everyone on the server:
         boar.spawnToAll();
 
-        // Or just spawn it for our CommandSender, which is currently our 'player'.
-        boar.spawnTo(player);
+        // Or, alternatively, spawn it only for the command sender:
+        // boar.spawnTo(player);
 
         return true;
     } else {
